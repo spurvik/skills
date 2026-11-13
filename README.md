@@ -22,6 +22,12 @@ No account or API key needed for the local setup.
 
 No cookies, no network telemetry, 24 EU languages, Shadow DOM. Works in plain HTML, Shopify, WordPress, Webflow, Lovable and Bolt.
 
+`data-attribution` defaults to `true`, which shows a small "Art. 50 · Spurvik" trust link after the notice (Free). Set `data-attribution="false"` to hide it for white-label on Pro (€19/mo) or Done-For-You (€199).
+
+- **WordPress plugin (no code):** [spurvik-eu-ai-act-wp.zip](https://spurvik.com/r/spurvik-eu-ai-act-wp.zip), via Plugins, Add New, Upload Plugin.
+- **Framer component:** [spurvik-framer-badge.tsx](https://spurvik.com/r/spurvik-framer-badge.tsx), pasted into Assets, Code, New Code File.
+- **shadcn / v0 registry:** `npx shadcn@latest add https://spurvik.com/r/article-50-badge.json`
+
 ## SDK
 
 ```bash
@@ -32,19 +38,31 @@ npm i spurvik
 
 ## MCP server
 
-Listed in the official MCP Registry as `com.spurvik/eu-ai-act`.
+Listed in the official MCP Registry as `com.spurvik/eu-ai-act`. The remote server at `https://console.spurvik.com/api/mcp` has 7 tools and needs no API key:
+
+| Tool | What it does |
+| --- | --- |
+| `spurvik_scan_live_url` | Scans one public HTTPS page for AI chat widgets and SDKs, checks for a visible Art. 50(1) notice and returns a one-line fix |
+| `spurvik_classify_ai_act_risk` | Self-assessment from a few answers: prohibited, high-risk (Annex III), Art. 50 only, minimal or outside the EU. Not legal advice; you still decide your tier |
+| `spurvik_generate_art50_badge` | Copy-paste Art. 50 notice (badge.js tag or React snippet) in any of the 24 EU languages |
+| `spurvik_setup_snippet` | SDK setup for OpenAI, Anthropic, Gemini, Vercel AI SDK, Mastra, OpenAI Agents, LangGraph, React |
+| `spurvik_find_unwrapped_calls` | Heuristic scan of pasted code for AI calls not wrapped with Spurvik |
+| `spurvik_explain_receipt` | Explains (and optionally verifies) an HMAC call receipt |
+| `spurvik_marking_hooks` | How to plug your own Art. 50(2) marking into the SDK |
 
 ```bash
 # Remote (Streamable HTTP)
 claude mcp add --transport http spurvik https://console.spurvik.com/api/mcp
 
-# Local stdio, adds a workspace scan for unwrapped AI calls
+# Local stdio, adds a workspace directory scan for unwrapped AI calls
 npx -y spurvik-mcp-server
 ```
 
 ## Try it
 
 - Sandbox: https://console.spurvik.com/sandbox
+- Free EU AI Act risk check: https://console.spurvik.com/risk-check
+- Free Art. 50(2) C2PA checker: https://console.spurvik.com/c2pa
 - Workspace (Frankfurt, fra1): https://console.spurvik.com/signup
 - Plans: https://spurvik.com/pricing
 
@@ -52,7 +70,7 @@ npx -y spurvik-mcp-server
 | --- | --- | --- |
 | Free | €0 | Notice badge, SDK, MCP server |
 | Pro | €19/mo | Hosted Slack/Teams approval queue, 90-day log retention in Frankfurt, DPO engineering summary download |
-| Done-For-You 24h Setup | €199 one-off | We wire it into your app within 24 hours. Email hello@spurvik.com |
+| Done-For-You 24h Setup | €199 one-off | We wire it into your app within 24 hours. Includes 1 full year of Pro (€190 value). [Buy now](https://console.spurvik.com/signup?plan=concierge) |
 
 ## Scope
 
