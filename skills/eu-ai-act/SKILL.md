@@ -18,6 +18,13 @@ Spurvik supports this work. It does not classify the user's use case and it does
 
 Find where AI replies are rendered and where model or tool calls run. Look for `openai`, `@anthropic-ai/sdk`, `@google/genai`, `ai` (Vercel AI SDK), `langchain`, `mastra`, `fastapi`, n8n workflow JSON, `theme.liquid`, `functions.php`, `index.html` and `app/layout.tsx`. Change only what the steps below need.
 
+Two zero-install commands speed this up (no account, no API key):
+
+```bash
+npx -y spurvik@1.0.9 audit .                 # model calls not yet logged, as file:line (never source text)
+npx -y spurvik@1.0.9 scan <the-live-domain>  # if the site is live: AI widgets and Art. 50(1) notice status
+```
+
 ## Step 1: Add the Art. 50(1) notice
 
 Add this one line to every page that shows AI output. It loads one script with no cookies and no network telemetry.
@@ -155,6 +162,8 @@ Spurvik does not mark content. For Art. 50(2) machine-readable marking of genera
 2. Make one AI call. The log line has `inputHmac` and `outputHmac`, and no prompt or output text appears anywhere in the logs.
 3. Trigger a gated tool. It waits for approval and does nothing when the person declines.
 4. `git status` shows no `.env` file or secret.
+5. `npx -y spurvik@1.0.9 audit .` reports 0 unwrapped calls. A file that imports the `spurvik-log` / `spurvik_log` logger counts as covered.
+6. After deploy, `npx -y spurvik@1.0.9 scan <domain> --fail-on-gap` exits 0. Exit 1 means an AI widget was found without an Art. 50(1) notice.
 
 ## Step 6: Tell your human owner
 

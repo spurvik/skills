@@ -8,6 +8,15 @@ npx skills add spurvik/skills
 
 Then ask your agent: *"Use the eu-ai-act skill on this project."*
 
+## Check a site or a repo first (zero install, no API key)
+
+```bash
+npx -y spurvik@1.0.9 scan yourdomain.com   # AI chat widgets + Art. 50(1) notice status, with a one-line fix
+npx -y spurvik@1.0.9 audit .               # unwrapped OpenAI / Anthropic / Gemini / AI SDK calls as file:line
+```
+
+Add `--json` for machine output and `--fail-on-gap` to fail a CI job on a gap. `audit` runs locally and prints only `file:line` and the provider, never source text.
+
 | Skill | What your agent does |
 | --- | --- |
 | [`eu-ai-act`](skills/eu-ai-act/SKILL.md) | Adds an Art. 50(1) AI notice, logs each AI call as HMAC-SHA256 fingerprints (never the prompt or output text), and gates send/pay/delete tool calls behind a human. Covers web apps, chatbots, Shopify, WordPress, Webflow, Lovable, Bolt, Next.js, FastAPI and n8n. |
