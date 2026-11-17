@@ -21,7 +21,7 @@ Ask for 1 to 10 public domains or `https://` URLs, one per client. Remove duplic
 - Remote: `https://console.spurvik.com/api/mcp` (in Claude Code: `claude mcp add --transport http spurvik https://console.spurvik.com/api/mcp`).
 - Local: `npx -y spurvik-mcp-server@1.0.8`.
 
-The local server exposes 10 zero-key tools and the hosted server 9; `spurvik_batch_scan_domains` is on both.
+Both servers expose the same 10 zero-key tools, including `spurvik_batch_scan_domains`.
 
 ```json
 { "domains": ["client-one.example", "client-two.example", "client-three.example"] }
