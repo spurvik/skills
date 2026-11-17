@@ -47,7 +47,7 @@ npx -y spurvik@1.0.10 c2pa "https://app.example.com/hero.webp" --json --fail-on-
 
 `--fail-on-missing` exits `2` when the image has no C2PA (JUMBF) manifest or its signature does not match, including when an optimizer strips it (`/_next/image`, Cloudflare `/cdn-cgi/image/`, Cloudinary, Imgix). It exits `0` when the check passes. Only pass public `https://` URLs from the user's own product, quoted. Never send localhost, private IPs or signed or tokenized URLs.
 
-**4. Risk tier.** Call the MCP tool `spurvik_classify_ai_act_risk` with the owner's answers about the use case. It is on the hosted server (`https://console.spurvik.com/api/mcp`; in Claude Code: `claude mcp add --transport http spurvik https://console.spurvik.com/api/mcp`) and the local stdio server (`npx -y spurvik-mcp-server@1.0.7`). Both expose the same 9 zero-key tools. The result is a self-assessment; the owner confirms the tier. The dates that frame the answers:
+**4. Risk tier.** Call the MCP tool `spurvik_classify_ai_act_risk` with the owner's answers about the use case. It is on the hosted server (`https://console.spurvik.com/api/mcp`; in Claude Code: `claude mcp add --transport http spurvik https://console.spurvik.com/api/mcp`) and the local stdio server (`npx -y spurvik-mcp-server@1.0.8`). The local server exposes 10 zero-key tools and the hosted server 9; both have `spurvik_classify_ai_act_risk`. The result is a self-assessment; the owner confirms the tier. The dates that frame the answers:
 
 | Date | What applies |
 | --- | --- |
@@ -71,6 +71,20 @@ Status is `Live`, `Partial` or `Not in place`. Step 2 uses only this ledger.
 ## Step 2: Draft the five standard answers
 
 Most enterprise questionnaires ask these five questions in some form. Map each customer question to one of them, write the answer from the ledger and keep the customer's numbering. For any `Partial` or `Not in place` row, write what is in place today, then the change and a date the owner commits to.
+
+**Fast draft with MCP tool #10.** If the local Spurvik MCP server is enabled (`npx -y spurvik-mcp-server@1.0.8`), call `spurvik_vendor_questionnaire_answers` directly to draft Q1–Q5 in one step. It runs locally, needs no API key and returns Markdown with one section per question (Q1 to Q5), a plan summary and next steps. Every input is optional; set each from the ledger instead of leaving the defaults:
+
+```json
+{ "plan": "pro", "provider": "vercel-ai-sdk", "hasHighRiskActions": true, "generatesMedia": false, "domain": "app.example.com" }
+```
+
+- `plan`: `free`, `pro`, `team` or `concierge` (Done-For-You). Default `pro`.
+- `provider`: `openai`, `anthropic`, `google-genai`, `vercel-ai-sdk`, `langgraph`, `openai-agents`, `mastra` or `custom`. Default `openai`.
+- `hasHighRiskActions`: the agent can call side-effect tools (Q4). Default `true`.
+- `generatesMedia`: the product generates images, audio or video (Q1, Art. 50(2)). Default `false`.
+- `domain`: the product's public domain, used as the product name in the answers. An invalid domain is dropped.
+
+The tool writes each answer from Spurvik's shipped controls for that plan. It has not seen this repo or site. Treat its output as a draft: keep a sentence only if a `Live` ledger row backs it, rewrite every `Partial` or `Not in place` control as described below, and add the customer's numbering. The hosted server does not have this tool yet. Without the local server, write the five answers from the guidance below.
 
 ### Q1: Art. 50(1) and Art. 50(2) transparency and provenance (2 August 2026 and 2 December 2026)
 
@@ -125,7 +139,7 @@ For a browser version with the same five questions, a tier switch and a `.md` ex
 
 ## Step 3: Check your work
 
-1. Every answer cites a ledger row: a `file:line`, a scan or `c2pa` result, or the plan.
+1. Every answer cites a ledger row: a `file:line`, a scan or `c2pa` result, or the plan. If you started from `spurvik_vendor_questionnaire_answers`, no sentence from its draft is left without a `Live` row behind it.
 2. No answer says "compliant", "certified" or "guaranteed".
 3. Every `Partial` or `Not in place` control is stated as such, with the change and a date.
 4. Field names are exactly `inputHash`, `outputHash`, `recordHash` and `prevLogHash`, and only where the ledger shows the SDK or the Spurvik workspace.

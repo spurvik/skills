@@ -64,7 +64,7 @@ npm i spurvik
 
 ## MCP server
 
-Listed in the official MCP Registry as `com.spurvik/eu-ai-act`. The hosted server at `https://console.spurvik.com/api/mcp` and the local stdio server `spurvik-mcp-server@1.0.7` expose the same 9 zero-key tools:
+Listed in the official MCP Registry as `com.spurvik/eu-ai-act`. The local stdio server `spurvik-mcp-server@1.0.8` exposes 10 zero-key tools. The hosted server at `https://console.spurvik.com/api/mcp` exposes the first 9; tool #10, `spurvik_vendor_questionnaire_answers`, is local only for now:
 
 | Tool | What it does |
 | --- | --- |
@@ -77,13 +77,14 @@ Listed in the official MCP Registry as `com.spurvik/eu-ai-act`. The hosted serve
 | `spurvik_explain_receipt` | Explains (and optionally verifies) an HMAC call receipt |
 | `spurvik_marking_hooks` | How to plug your own Art. 50(2) marking into the SDK |
 | `spurvik_check_image_c2pa_url` | Checks one public https image URL (PNG, JPEG or WebP, up to 4 MB) for an embedded C2PA manifest, its signature and trust list result, and image optimizers that strip it (`/_next/image`, Cloudinary, Imgix, Cloudflare). Read-only, nothing stored, 10 checks a minute |
+| `spurvik_vendor_questionnaire_answers` | Local stdio only (new in 1.0.8). Copy-paste Markdown answers to the five EU AI Act questions in enterprise vendor security questionnaires and DPO RFPs (Q1–Q5: Art. 50(1)/(2), Art. 12 logging, GDPR Art. 5(1)(c) minimisation and Frankfurt residency, Art. 14 approval gates, retention and Annex IV), matched to the Free, Pro, Team or Done-For-You plan. Runs locally, every input optional. Check each answer against your own setup before you send it |
 
 ```bash
 # Remote (Streamable HTTP)
 claude mcp add --transport http spurvik https://console.spurvik.com/api/mcp
 
-# Local stdio, adds a workspace directory scan for unwrapped AI calls
-npx -y spurvik-mcp-server@1.0.7
+# Local stdio, 10 tools: adds a workspace directory scan for unwrapped AI calls and spurvik_vendor_questionnaire_answers
+npx -y spurvik-mcp-server@1.0.8
 ```
 
 ## Try it

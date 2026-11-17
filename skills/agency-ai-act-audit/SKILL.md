@@ -19,9 +19,9 @@ Ask for 1 to 10 public domains or `https://` URLs, one per client. Remove duplic
 **Preferred: the `spurvik_batch_scan_domains` MCP tool** (no API key). It scans up to 10 domains in parallel and returns one row per host, each host's report link and status shield Markdown, and a one-line `badge.js` fix in the site's language for each gap.
 
 - Remote: `https://console.spurvik.com/api/mcp` (in Claude Code: `claude mcp add --transport http spurvik https://console.spurvik.com/api/mcp`).
-- Local: `npx -y spurvik-mcp-server@1.0.7`.
+- Local: `npx -y spurvik-mcp-server@1.0.8`.
 
-Both expose the same 9 zero-key tools.
+The local server exposes 10 zero-key tools and the hosted server 9; `spurvik_batch_scan_domains` is on both.
 
 ```json
 { "domains": ["client-one.example", "client-two.example", "client-three.example"] }
