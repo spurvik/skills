@@ -23,8 +23,8 @@ Find where AI replies are rendered and where model or tool calls run. Look for `
 Two zero-install commands speed this up (no account, no API key):
 
 ```bash
-npx -y spurvik@1.0.9 audit .                 # model calls not yet logged, as file:line (never source text)
-npx -y spurvik@1.0.9 scan <the-live-domain>  # if the site is live: AI widgets and Art. 50(1) notice status
+npx -y spurvik@1.0.10 audit .                # model calls not yet logged, as file:line (never source text)
+npx -y spurvik@1.0.10 scan <the-live-domain> # if the site is live: AI widgets and Art. 50(1) notice status
 ```
 
 ## Step 1: Add the Art. 50(1) notice
@@ -153,11 +153,11 @@ export async function guardTool(name, args, run, askHuman) {
 ## Step 4 (optional): Spurvik MCP server and SDK
 
 - **Remote MCP** (`com.spurvik/eu-ai-act` in the official MCP Registry): `https://console.spurvik.com/api/mcp` (Streamable HTTP, no API key). 9 tools: `spurvik_scan_live_url`, `spurvik_batch_scan_domains` (1 to 10 public domains in parallel: widget and SDK gaps, a `badge.js` fix in each site's language, a shareable `/report?domain=` brief URL and a live status shield in Markdown per domain), `spurvik_classify_ai_act_risk`, `spurvik_generate_art50_badge`, `spurvik_setup_snippet`, `spurvik_find_unwrapped_calls` (pass `code` or `files`), `spurvik_explain_receipt`, `spurvik_marking_hooks`, `spurvik_check_image_c2pa_url` (one public https image URL up to 4 MB: C2PA manifest, signature, trust list and CDN-strip check; read-only, nothing stored). In Claude Code: `claude mcp add --transport http spurvik https://console.spurvik.com/api/mcp`.
-- **Local MCP**: `npx -y spurvik-mcp-server@1.0.6`. 8 tools: the first 8 above, without `spurvik_check_image_c2pa_url`; `spurvik_find_unwrapped_calls` scans a workspace directory for AI calls that are not wrapped.
+- **Local MCP**: `npx -y spurvik-mcp-server@1.0.7` (stdio, no API key). The same 9 tools, including `spurvik_check_image_c2pa_url`; `spurvik_find_unwrapped_calls` also scans a workspace directory for AI calls that are not wrapped.
 - **Free browser tools** for the owner: EU AI Act risk check at https://console.spurvik.com/risk-check, C2PA manifest and CDN-strip checker at https://console.spurvik.com/c2pa, and the 10-domain agency scanner at https://console.spurvik.com/portfolio.
 - **SDK** (after the owner creates a workspace): `npm i spurvik` and wrap the provider client with `withSpurvik(client, { apiKey, signingSecret, contentHash, baseUrl, riskTier })`, or use `spurvikMiddleware` from `spurvik/ai` with the Vercel AI SDK. Get the exact snippet from `spurvik_setup_snippet`. The SDK needs `SPURVIK_API_KEY` and `SPURVIK_SIGNING_SECRET`, so use Steps 1 to 3 until the owner has a workspace.
 
-Spurvik does not mark or sign content. For Art. 50(2) machine-readable marking of generated media, ask `spurvik_marking_hooks` how to plug in your own marking, check live image URLs with `spurvik_check_image_c2pa_url` or `POST https://console.spurvik.com/api/v1/provenance/public-check-url`, and follow the `c2pa-provenance-check` skill.
+Spurvik does not mark or sign content. For Art. 50(2) machine-readable marking of generated media, ask `spurvik_marking_hooks` how to plug in your own marking, check live image URLs with `npx -y spurvik@1.0.10 c2pa <image-url>`, `spurvik_check_image_c2pa_url` or `POST https://console.spurvik.com/api/v1/provenance/public-check-url`, and follow the `c2pa-provenance-check` skill.
 
 ## Step 5: Check your work
 
@@ -165,8 +165,8 @@ Spurvik does not mark or sign content. For Art. 50(2) machine-readable marking o
 2. Make one AI call. The log line has `inputHmac` and `outputHmac`, and no prompt or output text appears anywhere in the logs.
 3. Trigger a gated tool. It waits for approval and does nothing when the person declines.
 4. `git status` shows no `.env` file or secret.
-5. `npx -y spurvik@1.0.9 audit .` reports 0 unwrapped calls. A file that imports the `spurvik-log` / `spurvik_log` logger counts as covered.
-6. After deploy, `npx -y spurvik@1.0.9 scan <domain> --fail-on-gap` exits 0. Exit 1 means an AI widget was found without an Art. 50(1) notice.
+5. `npx -y spurvik@1.0.10 audit .` reports 0 unwrapped calls. A file that imports the `spurvik-log` / `spurvik_log` logger counts as covered.
+6. After deploy, `npx -y spurvik@1.0.10 scan <domain> --fail-on-gap` exits 0. Exit 1 means an AI widget was found without an Art. 50(1) notice.
 
 ## Step 6: Tell your human owner
 

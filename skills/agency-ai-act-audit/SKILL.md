@@ -19,7 +19,9 @@ Ask for 1 to 10 public domains or `https://` URLs, one per client. Remove duplic
 **Preferred: the `spurvik_batch_scan_domains` MCP tool** (no API key). It scans up to 10 domains in parallel and returns one row per host, each host's report link and status shield Markdown, and a one-line `badge.js` fix in the site's language for each gap.
 
 - Remote: `https://console.spurvik.com/api/mcp` (in Claude Code: `claude mcp add --transport http spurvik https://console.spurvik.com/api/mcp`).
-- Local: `npx -y spurvik-mcp-server@1.0.6`.
+- Local: `npx -y spurvik-mcp-server@1.0.7`.
+
+Both expose the same 9 zero-key tools.
 
 ```json
 { "domains": ["client-one.example", "client-two.example", "client-three.example"] }
@@ -32,7 +34,7 @@ If one entry is not a public host, the whole batch is refused and nothing is fet
 ```bash
 while IFS= read -r d; do
   case "$d" in (""|*[!a-z0-9.-]*) echo "skipped: $d"; continue;; esac
-  npx -y spurvik@1.0.9 scan "$d" --json > "scan-$d.json"
+  npx -y spurvik@1.0.10 scan "$d" --json > "scan-$d.json"
 done < clients.txt
 ```
 
@@ -89,6 +91,6 @@ Prices are excl. VAT, B2B.
 
 1. Every client has a row with a report link and a status shield.
 2. Every gap row has one install that matches its platform.
-3. After an install goes live, scan that domain again: the gap is "No". In CI, `npx -y spurvik@1.0.9 scan <domain> --fail-on-gap` exits 0.
+3. After an install goes live, scan that domain again: the gap is "No". In CI, `npx -y spurvik@1.0.10 scan <domain> --fail-on-gap` exits 0.
 
 <sub>Scope: heuristic check of one public page per domain; it does not classify a client's use case or make a site meet the EU AI Act. Not legal advice.</sub>

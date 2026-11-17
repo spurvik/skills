@@ -13,13 +13,14 @@ Then ask your agent: *"Use the eu-ai-act skill on this project."*
 ## Check a site, a repo or an image first (zero install, no API key)
 
 ```bash
-npx -y spurvik@1.0.9 scan yourdomain.com   # AI chat widgets + Art. 50(1) notice status, with a one-line fix
-npx -y spurvik@1.0.9 audit .               # unwrapped OpenAI / Anthropic / Gemini / AI SDK calls as file:line
+npx -y spurvik@1.0.10 scan yourdomain.com                       # AI chat widgets + Art. 50(1) notice status, with a one-line fix
+npx -y spurvik@1.0.10 audit .                                   # unwrapped OpenAI / Anthropic / Gemini / AI SDK calls as file:line
+npx -y spurvik@1.0.10 c2pa https://yourdomain.com/hero.webp     # C2PA manifest, signature and CDN-strip check of one public AI image
 ```
 
-Add `--json` for machine output and `--fail-on-gap` to fail a CI job on a gap. `audit` runs locally and prints only `file:line` and the provider, never source text.
+Add `--json` for machine output. `scan` and `audit` take `--fail-on-gap` to fail a CI job on a gap; `c2pa` takes `--fail-on-missing`, which exits 2 when the image has no C2PA manifest or its signature does not match. `audit` runs locally and prints only `file:line` and the provider, never source text. `c2pa` checks one public https PNG, JPEG or WebP image up to 4 MB, names the image optimizer that strips the manifest (`/_next/image`, Cloudinary, Imgix, Cloudflare) and refuses localhost and private-IP URLs before any request. It reads; it never signs.
 
-Check one public AI image (PNG, JPEG or WebP, up to 4 MB) for an embedded C2PA manifest and its signature:
+Without Node 20+, the same image check is one curl call:
 
 ```bash
 curl -sS -X POST https://console.spurvik.com/api/v1/provenance/public-check-url \
@@ -62,7 +63,7 @@ npm i spurvik
 
 ## MCP server
 
-Listed in the official MCP Registry as `com.spurvik/eu-ai-act`. Neither server needs an API key. The remote server at `https://console.spurvik.com/api/mcp` has 9 tools; the local `spurvik-mcp-server@1.0.6` has the first 8 (no `spurvik_check_image_c2pa_url`):
+Listed in the official MCP Registry as `com.spurvik/eu-ai-act`. The hosted server at `https://console.spurvik.com/api/mcp` and the local stdio server `spurvik-mcp-server@1.0.7` expose the same 9 zero-key tools:
 
 | Tool | What it does |
 | --- | --- |
@@ -74,14 +75,14 @@ Listed in the official MCP Registry as `com.spurvik/eu-ai-act`. Neither server n
 | `spurvik_find_unwrapped_calls` | Heuristic scan of pasted code for AI calls not wrapped with Spurvik |
 | `spurvik_explain_receipt` | Explains (and optionally verifies) an HMAC call receipt |
 | `spurvik_marking_hooks` | How to plug your own Art. 50(2) marking into the SDK |
-| `spurvik_check_image_c2pa_url` | Remote only. Checks one public https image URL (PNG, JPEG or WebP, up to 4 MB) for an embedded C2PA manifest, its signature and trust list result, and image optimizers that strip it (`/_next/image`, Cloudinary, Imgix, Cloudflare). Read-only, nothing stored, 10 checks a minute |
+| `spurvik_check_image_c2pa_url` | Checks one public https image URL (PNG, JPEG or WebP, up to 4 MB) for an embedded C2PA manifest, its signature and trust list result, and image optimizers that strip it (`/_next/image`, Cloudinary, Imgix, Cloudflare). Read-only, nothing stored, 10 checks a minute |
 
 ```bash
 # Remote (Streamable HTTP)
 claude mcp add --transport http spurvik https://console.spurvik.com/api/mcp
 
 # Local stdio, adds a workspace directory scan for unwrapped AI calls
-npx -y spurvik-mcp-server@1.0.6
+npx -y spurvik-mcp-server@1.0.7
 ```
 
 ## Try it
