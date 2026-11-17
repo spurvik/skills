@@ -10,7 +10,7 @@ npx skills add spurvik/skills
 
 Then ask your agent: *"Use the eu-ai-act skill on this project."*
 
-## Check a site or a repo first (zero install, no API key)
+## Check a site, a repo or an image first (zero install, no API key)
 
 ```bash
 npx -y spurvik@1.0.9 scan yourdomain.com   # AI chat widgets + Art. 50(1) notice status, with a one-line fix
@@ -18,6 +18,16 @@ npx -y spurvik@1.0.9 audit .               # unwrapped OpenAI / Anthropic / Gemi
 ```
 
 Add `--json` for machine output and `--fail-on-gap` to fail a CI job on a gap. `audit` runs locally and prints only `file:line` and the provider, never source text.
+
+Check one public AI image (PNG, JPEG or WebP, up to 4 MB) for an embedded C2PA manifest and its signature:
+
+```bash
+curl -sS -X POST https://console.spurvik.com/api/v1/provenance/public-check-url \
+  -H "content-type: application/json" \
+  -d '{"url":"https://yourdomain.com/hero.jpg"}'
+```
+
+It returns JSON (`manifestFound`, `signatureMatches`, `trustAnchor`), sets no cookies and stores nothing; 10 checks a minute per IP.
 
 | Skill | Ask your agent | What your agent does |
 | --- | --- | --- |
@@ -52,7 +62,7 @@ npm i spurvik
 
 ## MCP server
 
-Listed in the official MCP Registry as `com.spurvik/eu-ai-act`. The remote server at `https://console.spurvik.com/api/mcp` and the local `spurvik-mcp-server@1.0.6` have the same 8 tools and need no API key:
+Listed in the official MCP Registry as `com.spurvik/eu-ai-act`. Neither server needs an API key. The remote server at `https://console.spurvik.com/api/mcp` has 9 tools; the local `spurvik-mcp-server@1.0.6` has the first 8 (no `spurvik_check_image_c2pa_url`):
 
 | Tool | What it does |
 | --- | --- |
@@ -64,6 +74,7 @@ Listed in the official MCP Registry as `com.spurvik/eu-ai-act`. The remote serve
 | `spurvik_find_unwrapped_calls` | Heuristic scan of pasted code for AI calls not wrapped with Spurvik |
 | `spurvik_explain_receipt` | Explains (and optionally verifies) an HMAC call receipt |
 | `spurvik_marking_hooks` | How to plug your own Art. 50(2) marking into the SDK |
+| `spurvik_check_image_c2pa_url` | Remote only. Checks one public https image URL (PNG, JPEG or WebP, up to 4 MB) for an embedded C2PA manifest, its signature and trust list result, and image optimizers that strip it (`/_next/image`, Cloudinary, Imgix, Cloudflare). Read-only, nothing stored, 10 checks a minute |
 
 ```bash
 # Remote (Streamable HTTP)

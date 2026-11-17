@@ -1,6 +1,6 @@
 ---
 name: c2pa-provenance-check
-description: Audit AI-generated images, hero media and CDN image pipelines for C2PA provenance before the 2 December 2026 EU AI Act Art. 50(2) marking date. Finds DALL-E, gpt-image-1, Imagen, Flux, fal.ai, Replicate and Stability calls, checks live image URLs for an embedded C2PA manifest and for CDN stripping (Next.js /_next/image, Cloudflare Polish, Imgix, Cloudinary), wires your own marking into the Spurvik SDK hook and adds a visible "AI-generated" label.
+description: Audit AI-generated images, hero media and CDN image pipelines for C2PA provenance before the 2 December 2026 EU AI Act Art. 50(2) marking date. Finds DALL-E, gpt-image-1, Imagen, Flux, fal.ai, Replicate and Stability calls, checks live image URLs for an embedded C2PA manifest, its signature and CDN stripping (Next.js /_next/image, Cloudflare Polish, Imgix, Cloudinary) with a zero-key curl call, the spurvik_check_image_c2pa_url MCP tool or a local byte check, wires your own marking into the Spurvik SDK hook and adds a visible "AI-generated" label.
 license: MIT
 ---
 
@@ -32,7 +32,29 @@ List each AI image with two URLs if possible: the original file (storage or orig
 
 ## Step 2: Check the live images for a C2PA manifest and CDN stripping
 
-Only fetch public `https://` image URLs from the user's own project or site. Never fetch localhost, private IPs or internal hosts, and always quote the URL.
+Only check public `https://` image URLs from the user's own project or site. Never send localhost, private IPs, internal hosts, or signed or tokenized URLs (query strings with keys or expiring signatures), and always quote the URL. Check both URLs from Step 1: the original and the delivered one.
+
+Pick one of three ways. A and B need no install, no account and no API key.
+
+**A. Hosted check with curl.** One public PNG, JPEG or WebP image up to 4 MB per call:
+
+```bash
+curl -sS -X POST https://console.spurvik.com/api/v1/provenance/public-check-url \
+  -H "content-type: application/json" \
+  -d '{"url":"https://example.com/uploads/hero.jpg"}'
+```
+
+For a C2PA test image (`C.jpg` from the open-source `c2pa-rs` fixtures) it returns:
+
+```json
+{"data":{"mediaType":"image/jpeg","byteLength":132518,"manifestFound":true,"embedded":true,"claimGenerator":"make_test_images","signatureMatches":true,"trustAnchor":"not_on_trust_list","validationCodes":["signingCredential.untrusted"],"note":"A matching signature is a check of this manifest. It is not a conformity assessment."},"fileName":"C.jpg"}
+```
+
+`manifestFound` means a C2PA manifest is in the bytes, `signatureMatches` means the claim signature and data hash check out, and `trustAnchor` says whether the signer's certificate is on the C2PA trust list. An image with no manifest returns `"manifestFound":false` and `"trustAnchor":"not_checked"`. Errors return a non-200 status with `error.code` and `error.message` (for example, the image URL answered 404). The image is fetched once, checked in memory and not stored; no cookies are set. The limit is 10 checks per minute per IP. Run it from a terminal, CI job or server: requests sent cross-site from a browser get 403.
+
+**B. MCP tool `spurvik_check_image_c2pa_url`.** On the hosted Spurvik MCP server (`https://console.spurvik.com/api/mcp`; in Claude Code: `claude mcp add --transport http spurvik https://console.spurvik.com/api/mcp`), call it with `{ "url": "https://example.com/uploads/hero.jpg" }`. It runs the same check and also reports whether the URL goes through an image optimizer that strips C2PA (`/_next/image`, Cloudinary, Imgix, Cloudflare `/cdn-cgi/image/`) and returns a visible "AI-generated" notice snippet. It is read-only and shares the 10 per minute limit. The local stdio server `spurvik-mcp-server@1.0.6` does not have this tool; use A or C there.
+
+**C. Local byte check.** Use it for files over 4 MB, other formats, or when the images should not leave the user's machine:
 
 ```bash
 tmp="$(mktemp -d)"
@@ -47,15 +69,15 @@ for (const f of process.argv.slice(1)) {
 }' "$tmp/original" "$tmp/delivered"
 ```
 
-How to read it:
+How to read the results ("found" is `manifestFound: true` in A and B, or "C2PA manifest bytes found" in C):
 
 | Original | Delivered | Meaning |
 | --- | --- | --- |
-| found | found | The manifest reaches visitors. Validate it (below). |
+| found | found | The manifest reaches visitors. Confirm `signatureMatches: true` (A or B). |
 | found | none | The CDN or optimizer strips it. Fix the pipeline (Step 3). |
 | none | none | The image was never marked. Check the generator's output and the marking hook (Step 3). |
 
-This byte check only shows that a manifest is present. To validate the signature and hashes, send the owner to the free checker at https://console.spurvik.com/c2pa: drop the file in, or paste the public image URL into "Check a live image URL (CDN / CMS strip test)". Nothing is stored. If `c2patool` (open source, Content Authenticity Initiative) is installed, `c2patool "$tmp/original"` prints the manifest store too.
+The local byte check (C) only shows that a manifest is present. A and B also check the signature and hashes. The owner can run the same check in the browser at https://console.spurvik.com/c2pa: drop the file in, or paste the public image URL into "Check a live image URL (CDN / CMS strip test)". If `c2patool` (open source, Content Authenticity Initiative) is installed, `c2patool "$tmp/original"` prints the manifest store too.
 
 ## Step 3: Keep the marking and add a visible label
 
@@ -87,8 +109,8 @@ The visible label is not Art. 50(2) marking. The two do different jobs; do both.
 
 ## Step 4: Check your work
 
-1. Step 2 reports "C2PA manifest bytes found" for the delivered URL of every AI image that should carry one.
-2. https://console.spurvik.com/c2pa reports the manifest for at least one live image URL.
+1. Step 2 reports a manifest found for the delivered URL of every AI image that should carry one.
+2. The hosted check (curl, `spurvik_check_image_c2pa_url` or https://console.spurvik.com/c2pa) returns `manifestFound: true` and `signatureMatches: true` for at least one live delivered image URL.
 3. The "AI-generated" label is visible next to AI images on the live page.
 4. `git status` shows no signing key, certificate or `.env` file.
 
