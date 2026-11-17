@@ -2,7 +2,7 @@
 
 [![EU AI Act Art. 50](https://console.spurvik.com/api/v1/badge/status.svg?domain=spurvik.com)](https://console.spurvik.com/report?domain=spurvik.com)
 
-Agent Skills that add EU AI Act Art. 50 transparency notices, zero-prompt-text HMAC call logging and human approval gates to your AI app. They work in Claude Code, Cursor, Codex, Lovable, Bolt, Replit and any agent that reads `SKILL.md`.
+Four Agent Skills that add EU AI Act Art. 50 transparency notices, zero-prompt-text HMAC call logging and human approval gates to your AI app, check AI images for C2PA, audit client sites, and answer vendor security questionnaires from real evidence. They work in Claude Code, Cursor, Codex, Lovable, Bolt, Replit and any agent that reads `SKILL.md`.
 
 ```bash
 npx skills add spurvik/skills
@@ -35,6 +35,7 @@ It returns JSON (`manifestFound`, `signatureMatches`, `trustAnchor`), sets no co
 | [`eu-ai-act`](skills/eu-ai-act/SKILL.md) | *"Use the eu-ai-act skill on this project."* | Adds an Art. 50(1) AI notice, logs each AI call as HMAC-SHA256 fingerprints (never the prompt or output text), and gates send/pay/delete tool calls behind a human. Covers web apps, chatbots, Shopify, WordPress, Webflow, Framer, Lovable, Bolt, Next.js, FastAPI and n8n. |
 | [`c2pa-provenance-check`](skills/c2pa-provenance-check/SKILL.md) | *"Check our AI images for C2PA before 2 December 2026."* | Finds AI image generation calls and hero media, checks live image URLs for an embedded C2PA manifest and for CDN stripping (`/_next/image`, Cloudflare Polish, Imgix, Cloudinary), wires your own Art. 50(2) marking into the SDK hook, and adds a visible "AI-generated" label. |
 | [`agency-ai-act-audit`](skills/agency-ai-act-audit/SKILL.md) | *"Audit these 10 client sites for AI chat widgets."* | Batch-scans 1 to 10 client sites for AI chat widgets (Intercom Fin, Zendesk AI, Tidio Lyro, HubSpot Breeze, Gorgias, Crisp, Drift, Dixa) with no visible Art. 50(1) notice, then writes a client-ready table with report links, status shields and the right install per platform. |
+| [`eu-ai-act-rfp-responder`](skills/eu-ai-act-rfp-responder/SKILL.md) | *"Answer this customer's EU AI Act security questionnaire."* | Runs `audit`, `scan` and `c2pa` on the repo and live site, writes an evidence ledger, then drafts the five standard procurement answers (Art. 50(1) and 50(2), Art. 12 logging, GDPR Art. 5(1)(c) and Frankfurt residency, Art. 14 oversight, retention and Annex IV evidence), marking each control live, partial or not yet in place. |
 
 No account or API key needed for the local setup.
 
@@ -91,6 +92,7 @@ npx -y spurvik-mcp-server@1.0.7
 - Free EU AI Act risk check: https://console.spurvik.com/risk-check
 - Free Art. 50(2) C2PA manifest and CDN-strip checker: https://console.spurvik.com/c2pa
 - Free agency batch scanner (up to 10 domains): https://console.spurvik.com/portfolio
+- EU AI Act vendor security questionnaire answers (5 questions, `.md` export): https://spurvik.com/eu-ai-act-vendor-security-questionnaire
 - Workspace (Frankfurt, fra1): https://console.spurvik.com/signup
 - Plans: https://spurvik.com/pricing
 
