@@ -23,8 +23,8 @@ Find where AI replies are rendered and where model or tool calls run. Look for `
 Two zero-install commands speed this up (no account, no API key):
 
 ```bash
-npx -y spurvik@1.0.10 audit .                # model calls not yet logged, as file:line (never source text)
-npx -y spurvik@1.0.10 scan <the-live-domain> # if the site is live: AI widgets and Art. 50(1) notice status
+npx -y spurvik@1.0.11 audit .                # model calls not yet logged, as file:line (never source text)
+npx -y spurvik@1.0.11 scan <the-live-domain> # if the site is live: AI widgets and Art. 50(1) notice status
 ```
 
 ## Step 1: Add the Art. 50(1) notice
@@ -157,7 +157,7 @@ export async function guardTool(name, args, run, askHuman) {
 - **Free browser tools** for the owner: EU AI Act risk check at https://console.spurvik.com/risk-check, C2PA manifest and CDN-strip checker at https://console.spurvik.com/c2pa, and the 10-domain agency scanner at https://console.spurvik.com/portfolio.
 - **SDK** (after the owner creates a workspace): `npm i spurvik` and wrap the provider client with `withSpurvik(client, { apiKey, signingSecret, contentHash, baseUrl, riskTier })`, or use `spurvikMiddleware` from `spurvik/ai` with the Vercel AI SDK. Get the exact snippet from `spurvik_setup_snippet`. The SDK needs `SPURVIK_API_KEY` and `SPURVIK_SIGNING_SECRET`, so use Steps 1 to 3 until the owner has a workspace.
 
-Spurvik does not mark or sign content. For Art. 50(2) machine-readable marking of generated media, ask `spurvik_marking_hooks` how to plug in your own marking, check live image URLs with `npx -y spurvik@1.0.10 c2pa <image-url>`, `spurvik_check_image_c2pa_url` or `POST https://console.spurvik.com/api/v1/provenance/public-check-url`, and follow the `c2pa-provenance-check` skill.
+Spurvik does not mark or sign content. For Art. 50(2) machine-readable marking of generated media, ask `spurvik_marking_hooks` how to plug in your own marking, check live image URLs with `npx -y spurvik@1.0.11 c2pa <image-url>`, `spurvik_check_image_c2pa_url` or `POST https://console.spurvik.com/api/v1/provenance/public-check-url`, and follow the `c2pa-provenance-check` skill.
 
 ## Step 5: Check your work
 
@@ -165,8 +165,8 @@ Spurvik does not mark or sign content. For Art. 50(2) machine-readable marking o
 2. Make one AI call. The log line has `inputHmac` and `outputHmac`, and no prompt or output text appears anywhere in the logs.
 3. Trigger a gated tool. It waits for approval and does nothing when the person declines.
 4. `git status` shows no `.env` file or secret.
-5. `npx -y spurvik@1.0.10 audit .` reports 0 unwrapped calls. A file that imports the `spurvik-log` / `spurvik_log` logger counts as covered.
-6. After deploy, `npx -y spurvik@1.0.10 scan <domain> --fail-on-gap` exits 0. Exit 1 means an AI widget was found without an Art. 50(1) notice.
+5. `npx -y spurvik@1.0.11 audit .` reports 0 unwrapped calls. A file that imports the `spurvik-log` / `spurvik_log` logger counts as covered.
+6. After deploy, `npx -y spurvik@1.0.11 scan <domain> --fail-on-gap` exits 0. Exit 1 means an AI widget was found without an Art. 50(1) notice.
 
 ## Step 6: Tell your human owner
 

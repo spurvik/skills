@@ -19,8 +19,8 @@ Run these before writing any answer. They need no account and no API key.
 **1. Repo audit.** From the repo root:
 
 ```bash
-npx -y spurvik@1.0.10 audit .          # unwrapped OpenAI / Anthropic / Gemini / AI SDK calls as file:line
-npx -y spurvik@1.0.10 audit . --json   # the same, as JSON for the evidence ledger
+npx -y spurvik@1.0.11 audit .          # unwrapped OpenAI / Anthropic / Gemini / AI SDK calls as file:line
+npx -y spurvik@1.0.11 audit . --json   # the same, as JSON for the evidence ledger
 ```
 
 It runs locally and prints only `file:line` and the provider, never source text. Then find the controls that are already wired:
@@ -34,7 +34,7 @@ git grep -nIE "contentHash|SPURVIK_CONTENT_HASH_SECRET|riskTier" -- '*.ts' '*.ts
 **2. Live site scan.** If the product has a public URL, check that visitors see the Art. 50(1) notice:
 
 ```bash
-npx -y spurvik@1.0.10 scan "app.example.com" --json
+npx -y spurvik@1.0.11 scan "app.example.com" --json
 ```
 
 The JSON has `detectedWidgets`, `covered`, `badgeSnippet` and `links.reportUrl`. The MCP tool `spurvik_scan_live_url` runs the same check. The scan reads one public page; a widget or notice that loads only after login can be missed, so say which page was scanned.
@@ -42,7 +42,7 @@ The JSON has `detectedWidgets`, `covered`, `badgeSnippet` and `links.reportUrl`.
 **3. AI image provenance.** If the product serves AI-generated images, check one delivered image URL per surface:
 
 ```bash
-npx -y spurvik@1.0.10 c2pa "https://app.example.com/hero.webp" --json --fail-on-missing
+npx -y spurvik@1.0.11 c2pa "https://app.example.com/hero.webp" --json --fail-on-missing
 ```
 
 `--fail-on-missing` exits `2` when the image has no C2PA (JUMBF) manifest or its signature does not match, including when an optimizer strips it (`/_next/image`, Cloudflare `/cdn-cgi/image/`, Cloudinary, Imgix). It exits `0` when the check passes. Only pass public `https://` URLs from the user's own product, quoted. Never send localhost, private IPs or signed or tokenized URLs.
@@ -72,11 +72,24 @@ Status is `Live`, `Partial` or `Not in place`. Step 2 uses only this ledger.
 
 Most enterprise questionnaires ask these five questions in some form. Map each customer question to one of them, write the answer from the ledger and keep the customer's numbering. For any `Partial` or `Not in place` row, write what is in place today, then the change and a date the owner commits to.
 
-**Fast draft with MCP tool #10.** If the Spurvik MCP server is enabled, hosted (`https://console.spurvik.com/api/mcp`) or local (`npx -y spurvik-mcp-server@1.0.8`), call `spurvik_vendor_questionnaire_answers` directly to draft Q1–Q5 in one step. It needs no API key, makes no outbound network calls and returns Markdown with one section per question (Q1 to Q5), a plan summary and next steps. Every input is optional; set each from the ledger instead of leaving the defaults:
+**Fast draft with MCP tool #10 or the `rfp` CLI.** Run Step 1 (`audit`, `scan`, `c2pa`) and write the ledger first, even when you use a shortcut. Two shortcuts draft Q1–Q5 in one step and return the same Markdown: one section per question (Q1 to Q5), a plan summary and next steps. Neither needs an API key.
 
-```json
-{ "plan": "pro", "provider": "vercel-ai-sdk", "hasHighRiskActions": true, "generatesMedia": false, "domain": "app.example.com" }
-```
+- **MCP tool #10.** If the Spurvik MCP server is enabled, hosted (`https://console.spurvik.com/api/mcp`) or local (`npx -y spurvik-mcp-server@1.0.8`), call `spurvik_vendor_questionnaire_answers`. The tool itself makes no outbound network calls. Example input:
+
+  ```json
+  { "plan": "pro", "provider": "vercel-ai-sdk", "hasHighRiskActions": true, "generatesMedia": false, "domain": "app.example.com" }
+  ```
+
+- **`rfp` CLI, no MCP server needed.** It runs on the machine and makes no network request; npx only downloads the package.
+
+  ```bash
+  npx -y spurvik@1.0.11 rfp [domain] [--plan free|pro|team|concierge] [--provider <provider>] [--generates-media] [--no-high-risk-actions] [--json]
+  npx -y spurvik@1.0.11 rfp "app.example.com" --plan pro --provider vercel-ai-sdk --json
+  ```
+
+  `--generates-media` sets `generatesMedia` to `true` and `--no-high-risk-actions` sets `hasHighRiskActions` to `false`. Without `--json` it prints the Markdown. With `--json` it returns `plan`, `provider`, `hasHighRiskActions`, `generatesMedia`, `domain`, `markdown`, `interactiveUrl`, `reportUrl` and `upgradeUrls`. An unknown `--plan` or `--provider` exits `2`.
+
+Every input is optional. Set each one from the ledger instead of leaving the defaults:
 
 - `plan`: `free`, `pro`, `team` or `concierge` (Done-For-You). Default `pro`.
 - `provider`: `openai`, `anthropic`, `google-genai`, `vercel-ai-sdk`, `langgraph`, `openai-agents`, `mastra` or `custom`. Default `openai`.
@@ -84,7 +97,7 @@ Most enterprise questionnaires ask these five questions in some form. Map each c
 - `generatesMedia`: the product generates images, audio or video (Q1, Art. 50(2)). Default `false`.
 - `domain`: the product's public domain, used as the product name in the answers. An invalid domain is dropped.
 
-The tool writes each answer from Spurvik's shipped controls for that plan. It has not seen this repo or site. Treat its output as a draft: keep a sentence only if a `Live` ledger row backs it, rewrite every `Partial` or `Not in place` control as described below, and add the customer's numbering. On the hosted server the inputs you pass, including `domain`, go to console.spurvik.com; the local server keeps them on the machine. Without either server, write the five answers from the guidance below.
+Both shortcuts write each answer from Spurvik's shipped controls for that plan. Neither has seen this repo or site. Treat the output as a draft and check every claim against the Step 1 ledger: keep a sentence only if a `Live` row backs it, rewrite every `Partial` or `Not in place` control as described below, and add the customer's numbering. On the hosted server the inputs you pass, including `domain`, go to console.spurvik.com. The local server and the CLI keep them on the machine. If you can use neither, write the five answers from the guidance below.
 
 ### Q1: Art. 50(1) and Art. 50(2) transparency and provenance (2 August 2026 and 2 December 2026)
 
@@ -139,7 +152,7 @@ For a browser version with the same five questions, a tier switch and a `.md` ex
 
 ## Step 3: Check your work
 
-1. Every answer cites a ledger row: a `file:line`, a scan or `c2pa` result, or the plan. If you started from `spurvik_vendor_questionnaire_answers`, no sentence from its draft is left without a `Live` row behind it.
+1. Every answer cites a ledger row: a `file:line`, a scan or `c2pa` result, or the plan. If you started from `spurvik_vendor_questionnaire_answers` or `spurvik rfp`, no sentence from its draft is left without a `Live` row behind it.
 2. No answer says "compliant", "certified" or "guaranteed".
 3. Every `Partial` or `Not in place` control is stated as such, with the change and a date.
 4. Field names are exactly `inputHash`, `outputHash`, `recordHash` and `prevLogHash`, and only where the ledger shows the SDK or the Spurvik workspace.

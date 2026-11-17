@@ -13,12 +13,15 @@ Then ask your agent: *"Use the eu-ai-act skill on this project."*
 ## Check a site, a repo or an image first (zero install, no API key)
 
 ```bash
-npx -y spurvik@1.0.10 scan yourdomain.com                       # AI chat widgets + Art. 50(1) notice status, with a one-line fix
-npx -y spurvik@1.0.10 audit .                                   # unwrapped OpenAI / Anthropic / Gemini / AI SDK calls as file:line
-npx -y spurvik@1.0.10 c2pa https://yourdomain.com/hero.webp     # C2PA manifest, signature and CDN-strip check of one public AI image
+npx -y spurvik@1.0.11 scan yourdomain.com                       # AI chat widgets + Art. 50(1) notice status, with a one-line fix
+npx -y spurvik@1.0.11 audit .                                   # unwrapped OpenAI / Anthropic / Gemini / AI SDK calls as file:line
+npx -y spurvik@1.0.11 c2pa https://yourdomain.com/hero.webp     # C2PA manifest, signature and CDN-strip check of one public AI image
+npx -y spurvik@1.0.11 rfp yourdomain.com --plan pro             # offline draft of the 5 EU AI Act vendor questionnaire answers (Q1–Q5)
 ```
 
 Add `--json` for machine output. `scan` and `audit` take `--fail-on-gap` to fail a CI job on a gap; `c2pa` takes `--fail-on-missing`, which exits 2 when the image has no C2PA manifest or its signature does not match. `audit` runs locally and prints only `file:line` and the provider, never source text. `c2pa` checks one public https PNG, JPEG or WebP image up to 4 MB, names the image optimizer that strips the manifest (`/_next/image`, Cloudinary, Imgix, Cloudflare) and refuses localhost and private-IP URLs before any request. It reads; it never signs.
+
+`rfp` makes no network request. It drafts the same Q1–Q5 Markdown as MCP tool #10 `spurvik_vendor_questionnaire_answers`: `npx -y spurvik@1.0.11 rfp [domain] [--plan free|pro|team|concierge] [--provider openai|anthropic|google-genai|vercel-ai-sdk|langgraph|openai-agents|mastra|custom] [--generates-media] [--no-high-risk-actions] [--json]`. Run `audit`, `scan` and `c2pa` first, and keep only the answers that evidence shows as live.
 
 Without Node 20+, the same image check is one curl call:
 
@@ -35,7 +38,7 @@ It returns JSON (`manifestFound`, `signatureMatches`, `trustAnchor`), sets no co
 | [`eu-ai-act`](skills/eu-ai-act/SKILL.md) | *"Use the eu-ai-act skill on this project."* | Adds an Art. 50(1) AI notice, logs each AI call as HMAC-SHA256 fingerprints (never the prompt or output text), and gates send/pay/delete tool calls behind a human. Covers web apps, chatbots, Shopify, WordPress, Webflow, Framer, Lovable, Bolt, Next.js, FastAPI and n8n. |
 | [`c2pa-provenance-check`](skills/c2pa-provenance-check/SKILL.md) | *"Check our AI images for C2PA before 2 December 2026."* | Finds AI image generation calls and hero media, checks live image URLs for an embedded C2PA manifest and for CDN stripping (`/_next/image`, Cloudflare Polish, Imgix, Cloudinary), wires your own Art. 50(2) marking into the SDK hook, and adds a visible "AI-generated" label. |
 | [`agency-ai-act-audit`](skills/agency-ai-act-audit/SKILL.md) | *"Audit these 10 client sites for AI chat widgets."* | Batch-scans 1 to 10 client sites for AI chat widgets (Intercom Fin, Zendesk AI, Tidio Lyro, HubSpot Breeze, Gorgias, Crisp, Drift, Dixa) with no visible Art. 50(1) notice, then writes a client-ready table with report links, status shields and the right install per platform. |
-| [`eu-ai-act-rfp-responder`](skills/eu-ai-act-rfp-responder/SKILL.md) | *"Answer this customer's EU AI Act security questionnaire."* | Runs `audit`, `scan` and `c2pa` on the repo and live site, writes an evidence ledger, then drafts the five standard procurement answers (Art. 50(1) and 50(2), Art. 12 logging, GDPR Art. 5(1)(c) and Frankfurt residency, Art. 14 oversight, retention and Annex IV evidence), marking each control live, partial or not yet in place. |
+| [`eu-ai-act-rfp-responder`](skills/eu-ai-act-rfp-responder/SKILL.md) | *"Answer this customer's EU AI Act security questionnaire."* | Runs `audit`, `scan` and `c2pa` on the repo and live site, writes an evidence ledger, then drafts the five standard procurement answers (Art. 50(1) and 50(2), Art. 12 logging, GDPR Art. 5(1)(c) and Frankfurt residency, Art. 14 oversight, retention and Annex IV evidence), marking each control live, partial or not yet in place. The fast path is MCP tool #10 or `npx -y spurvik@1.0.11 rfp`, checked against that ledger. |
 
 No account or API key needed for the local setup.
 
@@ -77,7 +80,7 @@ Listed in the official MCP Registry as `com.spurvik/eu-ai-act`. The hosted serve
 | `spurvik_explain_receipt` | Explains (and optionally verifies) an HMAC call receipt |
 | `spurvik_marking_hooks` | How to plug your own Art. 50(2) marking into the SDK |
 | `spurvik_check_image_c2pa_url` | Checks one public https image URL (PNG, JPEG or WebP, up to 4 MB) for an embedded C2PA manifest, its signature and trust list result, and image optimizers that strip it (`/_next/image`, Cloudinary, Imgix, Cloudflare). Read-only, nothing stored, 10 checks a minute |
-| `spurvik_vendor_questionnaire_answers` | New in 1.0.8, on hosted and local. Copy-paste Markdown answers to the five EU AI Act questions in enterprise vendor security questionnaires and DPO RFPs (Q1–Q5: Art. 50(1)/(2), Art. 12 logging, GDPR Art. 5(1)(c) minimisation and Frankfurt residency, Art. 14 approval gates, retention and Annex IV), matched to the Free, Pro, Team or Done-For-You plan. Deterministic, makes no outbound network calls, every input optional. Check each answer against your own setup before you send it |
+| `spurvik_vendor_questionnaire_answers` | New in 1.0.8, on hosted and local. Copy-paste Markdown answers to the five EU AI Act questions in enterprise vendor security questionnaires and DPO RFPs (Q1–Q5: Art. 50(1)/(2), Art. 12 logging, GDPR Art. 5(1)(c) minimisation and Frankfurt residency, Art. 14 approval gates, retention and Annex IV), matched to the Free, Pro, Team or Done-For-You plan. Deterministic, makes no outbound network calls, every input optional. Check each answer against your own setup before you send it. The same draft works offline with `npx -y spurvik@1.0.11 rfp` |
 
 ```bash
 # Remote (Streamable HTTP), 10 tools
