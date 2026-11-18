@@ -19,7 +19,7 @@ Ask for 1 to 10 public domains or `https://` URLs, one per client. Remove duplic
 **Preferred: the `spurvik_batch_scan_domains` MCP tool** (no API key). It scans up to 10 domains in parallel and returns one row per host, each host's report link and status shield Markdown, and a one-line `badge.js` fix in the site's language for each gap.
 
 - Remote: `https://console.spurvik.com/api/mcp` (in Claude Code: `claude mcp add --transport http spurvik https://console.spurvik.com/api/mcp`).
-- Local: `npx -y spurvik-mcp-server@1.0.8`.
+- Local: `npx -y spurvik-mcp-server@1.0.9`.
 
 Both servers expose the same 10 zero-key tools, including `spurvik_batch_scan_domains`.
 
@@ -29,12 +29,16 @@ Both servers expose the same 10 zero-key tools, including `spurvik_batch_scan_do
 
 If one entry is not a public host, the whole batch is refused and nothing is fetched. Remove that entry and run it again.
 
-**Fallback: the zero-install CLI**, one domain at a time. Put the bare domains in `clients.txt`, one per line, in lowercase. The loop skips any line with other characters:
+**Fallback: the zero-install CLI** (2 to 10 public domains in one command, or a loop for larger rosters):
 
 ```bash
+# Single-command multi-domain batch scan (2–10 public domains at once, 4 in flight):
+npx -y spurvik@1.0.12 scan client1.eu client2.fr client3.se --json
+
+# Or loop through a clients.txt file (one lowercase domain per line):
 while IFS= read -r d; do
   case "$d" in (""|*[!a-z0-9.-]*) echo "skipped: $d"; continue;; esac
-  npx -y spurvik@1.0.11 scan "$d" --json > "scan-$d.json"
+  npx -y spurvik@1.0.12 scan "$d" --json > "scan-$d.json"
 done < clients.txt
 ```
 
@@ -91,6 +95,6 @@ Prices are excl. VAT, B2B.
 
 1. Every client has a row with a report link and a status shield.
 2. Every gap row has one install that matches its platform.
-3. After an install goes live, scan that domain again: the gap is "No". In CI, `npx -y spurvik@1.0.11 scan <domain> --fail-on-gap` exits 0.
+3. After an install goes live, scan that domain again: the gap is "No". In CI, `npx -y spurvik@1.0.12 scan <domain> --fail-on-gap` exits 0.
 
 <sub>Scope: heuristic check of one public page per domain; it does not classify a client's use case or make a site meet the EU AI Act. Not legal advice.</sub>
