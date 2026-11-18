@@ -98,13 +98,13 @@ npx -y spurvik-mcp-server@1.0.8
 - Free agency batch scanner (up to 10 domains): https://console.spurvik.com/portfolio
 - EU AI Act vendor security questionnaire answers (5 questions, `.md` export): https://spurvik.com/eu-ai-act-vendor-security-questionnaire
 - Workspace (Frankfurt, fra1): https://console.spurvik.com/signup
-- Plans: https://spurvik.com/pricing
+- Plans: https://spurvik.com/#pricing
 
 | Plan | Price | Adds |
 | --- | --- | --- |
-| Free | €0 | Notice badge, SDK, MCP server |
-| Pro | €19/mo (€190/yr) | Hosted Slack/Teams approval queue, 90-day log retention in Frankfurt, DPO engineering summary download, white-label badge (`data-attribution="false"`) |
-| Team | €79/mo (€790/yr) | Everything in Pro, 2,000,000 events a month, 12-month log retention, white-label client projects for agencies |
+| Free | €0 | 24-language notice badge, SDK, 10-tool MCP server, 10k events/mo (30d Frankfurt retention) |
+| Pro | €19/mo (€190/yr) | 250k events/mo, 90-day Frankfurt (`fra1`) log retention, hosted human approval queue, DPO engineering summary `.md` download, white-label badge (`data-attribution="false"`) |
+| Team | €79/mo (€790/yr) | Everything in Pro, 2,000,000 events/mo, 12-month Frankfurt (`fra1`) log retention, webhook export, Annex IV technical documentation draft |
 | Done-For-You 24h Setup | €199 once | We wire it into your app within 24 hours. Includes 1 full year of Pro (€190 value). [Buy now](https://console.spurvik.com/signup?plan=concierge) |
 
 Prices excl. VAT, B2B.

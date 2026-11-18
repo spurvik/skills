@@ -41,6 +41,9 @@ Pick one of three ways. A and B need no install, no account and no API key.
 ```bash
 npx -y spurvik@1.0.11 c2pa "https://yourdomain.com/hero.webp"
 npx -y spurvik@1.0.11 c2pa "https://yourdomain.com/hero.webp" --json --fail-on-missing   # for CI
+# Live public test vectors (signed JUMBF vs unmarked WebP):
+npx -y spurvik@1.0.11 c2pa "https://spurvik.com/media/c2pa-signed-sample.png"
+npx -y spurvik@1.0.11 c2pa "https://spurvik.com/media/art50-prism-loop.webp"
 ```
 
 It prints the manifest, signature and trust list result, names the image optimizer if the URL goes through one that strips C2PA (`/_next/image`, Cloudinary, Imgix, Cloudflare `/cdn-cgi/image/`), and gives the fix plus a visible "AI-generated" notice snippet. `--json` prints the same report as JSON (`status`, `manifestFound`, `signatureMatches`, `trustAnchor`, `validationCodes`, `imageProxy`, `diagnosis`). `--fail-on-missing` exits 2 when there is no manifest or the signature does not match; usage and network errors also exit 2, and 0 means the check passed. It sends only the URL you pass to console.spurvik.com and refuses non-https, non-443, credentialed, `localhost`, `.local`/`.internal` and private-IP URLs before any request. It reads; it never signs.

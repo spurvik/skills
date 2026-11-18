@@ -146,7 +146,7 @@ Retention and evidence depend on the Spurvik plan the user's company is on. Name
 | Team | €79/mo or €790/yr | Everything in Pro, 2,000,000 events a month, 12-month log retention in Frankfurt, white-label client projects for agencies, webhook export of signed events, Annex IV technical documentation draft (Art. 11) that the user's team reviews and completes | https://console.spurvik.com/signup?plan=team |
 | Done-For-You 24h Setup | €199 once, includes 1 year of Pro | A Spurvik engineer installs the notice, call logging and approval gate within 24 hours (PR or CMS) and delivers a signed DPO readiness and C2PA Art. 50(2) provenance report | https://console.spurvik.com/signup?plan=concierge |
 
-Attach the evidence the plan actually produces: the shareable scan brief at `https://console.spurvik.com/report?domain=<domain>` (the DPO can save it as a PDF), the ledger from Step 1, and the DPO engineering summary or Annex IV draft on Pro or Team.
+Attach the evidence the plan actually produces: the shareable scan brief at `https://console.spurvik.com/report?domain=<domain>` (the DPO can save it as a PDF), the ledger from Step 1, and the DPO engineering summary (Pro) or Annex IV technical documentation draft (Team).
 
 For a browser version with the same five questions, a tier switch and a `.md` export of all answers, point the owner to https://spurvik.com/eu-ai-act-vendor-security-questionnaire.
 
