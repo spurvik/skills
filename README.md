@@ -65,6 +65,8 @@ npm i spurvik
 
 `withSpurvik(client, config)` wraps OpenAI, Anthropic and Gemini clients. `spurvikMiddleware` from `spurvik/ai` plugs into the Vercel AI SDK, with adapters for Mastra, OpenAI Agents and LangGraph. It records each call with a keyed HMAC receipt; the prompt and output text are not sent. MIT, source at [spurvik/spurvik](https://github.com/spurvik/spurvik).
 
+For **Python 3.10+ (FastAPI, LangChain, PydanticAI, Django, OpenAI Python SDK)** with zero extra pip dependencies: `curl -fsSLO https://spurvik.com/r/spurvik_guard.py` ([interactive Python cockpit](https://spurvik.com/python-fastapi-langchain-eu-ai-act-logging)).
+
 ## MCP server
 
 Listed in the official MCP Registry as `com.spurvik/eu-ai-act`. The hosted server at `https://console.spurvik.com/api/mcp` and the local stdio server `spurvik-mcp-server@1.0.8` expose the same 10 zero-key tools:
