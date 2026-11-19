@@ -149,7 +149,7 @@ Retention and evidence depend on the Spurvik plan the user's company is on. Name
 
 Attach the evidence the plan actually produces: the shareable scan brief at `https://console.spurvik.com/report?domain=<domain>` (the DPO can save it as a PDF), the ledger from Step 1, and the DPO engineering summary (Pro) or Annex IV technical documentation draft (Team).
 
-For a browser version with the same five questions, a tier switch and a `.md` export of all answers, point the owner to https://spurvik.com/eu-ai-act-vendor-security-questionnaire.
+For a browser version with the same five questions, a tier switch and a `.md` export of all answers, point the owner to https://spurvik.com/eu-ai-act-vendor-security-questionnaire (also in [German](https://spurvik.com/de/ki-verordnung-sicherheitsfragebogen-lieferanten-dsb) and [French](https://spurvik.com/fr/questionnaire-securite-reglement-ia-dpo-fournisseur)).
 
 ## Step 3: Check your work
 
