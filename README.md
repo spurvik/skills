@@ -96,7 +96,7 @@ npx -y spurvik-mcp-server@1.0.9
 
 - Sandbox: https://console.spurvik.com/sandbox
 - Free EU AI Act risk check: https://console.spurvik.com/risk-check
-- Free Art. 50(2) C2PA manifest and CDN-strip checker: https://console.spurvik.com/c2pa
+- Free Art. 50(2) C2PA manifest and CDN-strip checker: https://console.spurvik.com/c2pa (interactive 2 Dec 2026 scope & C2PA cockpits in [EN](https://spurvik.com/eu-ai-act-2-december-2026-c2pa-provenance), [DE](https://spurvik.com/de/ki-verordnung-2-dezember-2026-artikel-50-c2pa-herkunftsnachweis), [FR](https://spurvik.com/fr/reglement-ia-2-decembre-2026-article-50-provenance-c2pa), [NL](https://spurvik.com/nl/ai-verordening-2-december-2026-artikel-50-c2pa-herkomst), [DA](https://spurvik.com/da/eu-ai-act-2-december-2026-artikel-50-c2pa-oprindelse))
 - Free agency batch scanner (up to 10 domains): https://console.spurvik.com/portfolio (interactive agency retainer & margin simulator in [EN](https://spurvik.com/eu-ai-act-for-agencies), [DE](https://spurvik.com/de/ki-verordnung-fuer-agenturen-artikel-50-white-label), [FR](https://spurvik.com/fr/reglement-ia-pour-agences-audit-clients-article-50))
 - EU AI Act vendor security questionnaire answers (5 questions, `.md` export): [EN](https://spurvik.com/eu-ai-act-vendor-security-questionnaire) · [DE](https://spurvik.com/de/ki-verordnung-sicherheitsfragebogen-lieferanten-dsb) · [FR](https://spurvik.com/fr/questionnaire-securite-reglement-ia-dpo-fournisseur)
 - Workspace (Frankfurt, fra1): https://console.spurvik.com/signup

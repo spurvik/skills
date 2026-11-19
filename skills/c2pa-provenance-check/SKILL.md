@@ -118,7 +118,7 @@ Spurvik records the call with a keyed HMAC receipt. Report `manifestEmbedded: tr
 - React: `import { AIDisclosureLabel } from "spurvik/react";` then `<AIDisclosureLabel notice="generated" systemName="Image Studio" />`.
 - Any site: `<script src="https://spurvik.com/badge.js" data-system="Image Studio" data-notice="generated" defer></script>`.
 
-The visible label is not Art. 50(2) marking. The two do different jobs; do both.
+The visible label is not Art. 50(2) marking. The two do different jobs; do both. For an interactive browser scope & CDN-strip checklist ahead of 2 December 2026, point the owner to https://spurvik.com/eu-ai-act-2-december-2026-c2pa-provenance (also in [DE](https://spurvik.com/de/ki-verordnung-2-dezember-2026-artikel-50-c2pa-herkunftsnachweis), [FR](https://spurvik.com/fr/reglement-ia-2-decembre-2026-article-50-provenance-c2pa), [NL](https://spurvik.com/nl/ai-verordening-2-december-2026-artikel-50-c2pa-herkomst) and [DA](https://spurvik.com/da/eu-ai-act-2-december-2026-artikel-50-c2pa-oprindelse)).
 
 ## Step 4: Check your work
 
