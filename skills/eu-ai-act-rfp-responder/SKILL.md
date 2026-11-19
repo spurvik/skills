@@ -78,17 +78,17 @@ Most enterprise questionnaires ask these five questions in some form. Map each c
 - **MCP tool #10.** If the Spurvik MCP server is enabled, hosted (`https://console.spurvik.com/api/mcp`) or local (`npx -y spurvik-mcp-server@1.0.9`), call `spurvik_vendor_questionnaire_answers`. The tool itself makes no outbound network calls. Example input:
 
   ```json
-  { "plan": "pro", "provider": "vercel-ai-sdk", "hasHighRiskActions": true, "generatesMedia": false, "domain": "app.example.com" }
+  { "plan": "pro", "provider": "vercel-ai-sdk", "hasHighRiskActions": true, "generatesMedia": false, "domain": "app.example.com", "locale": "en" }
   ```
 
 - **`rfp` CLI, no MCP server needed.** It runs on the machine and makes no network request; npx only downloads the package.
 
   ```bash
-  npx -y spurvik@1.0.12 rfp [domain] [--plan free|pro|team|concierge] [--provider <provider>] [--generates-media] [--no-high-risk-actions] [--json]
+  npx -y spurvik@1.0.12 rfp [domain] [--lang en|de|fr|nl|da] [--plan free|pro|team|concierge] [--provider <provider>] [--generates-media] [--no-high-risk-actions] [--json]
   npx -y spurvik@1.0.12 rfp "app.example.com" --plan pro --provider vercel-ai-sdk --json
   ```
 
-  `--generates-media` sets `generatesMedia` to `true` and `--no-high-risk-actions` sets `hasHighRiskActions` to `false`. Without `--json` it prints the Markdown. With `--json` it returns `plan`, `provider`, `hasHighRiskActions`, `generatesMedia`, `domain`, `markdown`, `interactiveUrl`, `reportUrl` and `upgradeUrls`. An unknown `--plan` or `--provider` exits `2`.
+  `--generates-media` sets `generatesMedia` to `true` and `--no-high-risk-actions` sets `hasHighRiskActions` to `false`. Without `--json` it prints the Markdown. With `--json` it returns `plan`, `provider`, `hasHighRiskActions`, `generatesMedia`, `domain`, `markdown`, `interactiveUrl`, `reportUrl` and `upgradeUrls`. An unknown `--plan`, `--provider` or `--lang` exits `2`.
 
 Every input is optional. Set each one from the ledger instead of leaving the defaults:
 
@@ -97,6 +97,7 @@ Every input is optional. Set each one from the ledger instead of leaving the def
 - `hasHighRiskActions`: the agent can call side-effect tools (Q4). Default `true`.
 - `generatesMedia`: the product generates images, audio or video (Q1, Art. 50(2)). Default `false`.
 - `domain`: the product's public domain, used as the product name in the answers. An invalid domain is dropped.
+- `locale` (`--lang` in CLI): `en` (default), `de` (German DSB), `fr` (French DPO), `nl` (Dutch FG) or `da` (Danish DPO).
 
 Both shortcuts write each answer from Spurvik's shipped controls for that plan. Neither has seen this repo or site. Treat the output as a draft and check every claim against the Step 1 ledger: keep a sentence only if a `Live` row backs it, rewrite every `Partial` or `Not in place` control as described below, and add the customer's numbering. On the hosted server the inputs you pass, including `domain`, go to console.spurvik.com. The local server and the CLI keep them on the machine. If you can use neither, write the five answers from the guidance below.
 
