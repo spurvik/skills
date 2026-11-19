@@ -13,13 +13,13 @@ Then ask your agent: *"Use the eu-ai-act skill on this project."*
 ## Check a site, a repo or an image first (zero install, no API key)
 
 ```bash
-npx -y spurvik@1.0.12 scan yourdomain.com                       # AI chat widgets + Art. 50(1) notice status, with a one-line fix
-npx -y spurvik@1.0.12 audit .                                   # unwrapped OpenAI / Anthropic / Gemini / AI SDK calls as file:line
-npx -y spurvik@1.0.12 c2pa https://yourdomain.com/hero.webp     # C2PA manifest, signature and CDN-strip check of one public AI image
+npx -y spurvik@1.0.12 scan yourdomain.com                       # AI chat widgets + Art. 50(1) notice status (supports 1–10 domains at once)
+npx -y spurvik@1.0.12 audit .                                   # unwrapped OpenAI / Anthropic / Gemini / AI SDK / Python calls as file:line
+npx -y spurvik@1.0.12 c2pa yourdomain.com                       # 1-hop store hero/og:image C2PA & CDN-strip check (or pass a direct https image URL)
 npx -y spurvik@1.0.12 rfp yourdomain.com --plan pro             # offline draft of the 5 EU AI Act vendor questionnaire answers (Q1–Q5)
 ```
 
-Add `--json` for machine output. `scan` and `audit` take `--fail-on-gap` to fail a CI job on a gap; `c2pa` takes `--fail-on-missing`, which exits 2 when the image has no C2PA manifest or its signature does not match. `audit` runs locally and prints only `file:line` and the provider, never source text. `c2pa` checks one public https PNG, JPEG or WebP image up to 4 MB, names the image optimizer that strips the manifest (`/_next/image`, Cloudinary, Imgix, Cloudflare) and refuses localhost and private-IP URLs before any request. It reads; it never signs.
+Add `--json` for machine output. `scan` and `audit` take `--fail-on-gap` to fail a CI job on a gap; `c2pa` takes `--fail-on-missing`, which exits 2 when the image has no C2PA manifest or its signature does not match. `audit` runs locally and prints only `file:line` and the provider, never source text. `c2pa` checks one public https PNG, JPEG or WebP image up to 4 MB (or auto-discovers a store's frontpage hero image in 1 hop from a bare domain), names the image optimizer that strips the manifest (`/_next/image`, Shopify CDN `/cdn/shop/`, Jetpack Photon, Webflow CDN, Cloudinary, Imgix, Cloudflare) and refuses localhost and private-IP URLs before any request. It reads; it never signs.
 
 `rfp` makes no network request. It drafts the same Q1–Q5 Markdown as MCP tool #10 `spurvik_vendor_questionnaire_answers`: `npx -y spurvik@1.0.12 rfp [domain] [--plan free|pro|team|concierge] [--provider openai|anthropic|google-genai|vercel-ai-sdk|langgraph|openai-agents|mastra|custom] [--generates-media] [--no-high-risk-actions] [--json]`. Run `audit`, `scan` and `c2pa` first, and keep only the answers that evidence shows as live.
 
@@ -69,7 +69,7 @@ For **Python 3.10+ (FastAPI, LangChain, PydanticAI, Django, OpenAI Python SDK)**
 
 ## MCP server
 
-Listed in the official MCP Registry as `com.spurvik/eu-ai-act`. The hosted server at `https://console.spurvik.com/api/mcp` and the local stdio server `spurvik-mcp-server@1.0.9` expose the same 10 zero-key tools:
+Listed in the official MCP Registry as `io.github.spurvik/spurvik-mcp-server` (and `com.spurvik/eu-ai-act`). The hosted server at `https://console.spurvik.com/api/mcp` and the local stdio server `spurvik-mcp-server@1.0.9` expose the same 10 zero-key tools:
 
 | Tool | What it does |
 | --- | --- |
@@ -77,11 +77,11 @@ Listed in the official MCP Registry as `com.spurvik/eu-ai-act`. The hosted serve
 | `spurvik_batch_scan_domains` | Scans 1 to 10 public domains in parallel (for example an agency's client sites). Returns the widget and SDK gaps, a `badge.js` fix in each site's language (24 EU languages), a shareable `/report?domain=` brief URL and a live status shield in Markdown per domain |
 | `spurvik_classify_ai_act_risk` | Self-assessment from a few answers: prohibited, high-risk (Annex III), Art. 50 only, minimal or outside the EU. You still decide your tier |
 | `spurvik_generate_art50_badge` | Copy-paste Art. 50 notice (badge.js tag or React snippet) in any of the 24 EU languages |
-| `spurvik_setup_snippet` | SDK setup for OpenAI, Anthropic, Gemini, Vercel AI SDK, Mastra, OpenAI Agents, LangGraph, React |
-| `spurvik_find_unwrapped_calls` | Heuristic scan of pasted code for AI calls not wrapped with Spurvik |
+| `spurvik_setup_snippet` | Setup snippets for OpenAI, Anthropic, Gemini, Vercel AI SDK, Mastra, OpenAI Agents, LangGraph, React, Python, FastAPI, LangChain & PydanticAI (`spurvik_guard.py`) |
+| `spurvik_find_unwrapped_calls` | Heuristic scan of pasted TypeScript/JS or Python code (or a workspace directory on stdio) for AI calls not wrapped with Spurvik |
 | `spurvik_explain_receipt` | Explains (and optionally verifies) an HMAC call receipt |
 | `spurvik_marking_hooks` | How to plug your own Art. 50(2) marking into the SDK |
-| `spurvik_check_image_c2pa_url` | Checks one public https image URL (PNG, JPEG or WebP, up to 4 MB) for an embedded C2PA manifest, its signature and trust list result, and image optimizers that strip it (`/_next/image`, Cloudinary, Imgix, Cloudflare). Read-only, nothing stored, 10 checks a minute |
+| `spurvik_check_image_c2pa_url` | Checks one public https image URL (PNG, JPEG or WebP, up to 4 MB) — or a bare public domain in 1 hop — for an embedded C2PA manifest, its signature and trust list result, and image optimizers that strip it (`/_next/image`, Shopify CDN, Jetpack Photon, Webflow CDN, Cloudinary, Imgix, Cloudflare). Read-only, nothing stored, 10 checks a minute |
 | `spurvik_vendor_questionnaire_answers` | New in 1.0.8, on hosted and local. Copy-paste Markdown answers to the five EU AI Act questions in enterprise vendor security questionnaires and DPO RFPs (Q1–Q5: Art. 50(1)/(2), Art. 12 logging, GDPR Art. 5(1)(c) minimisation and Frankfurt residency, Art. 14 approval gates, retention and Annex IV), matched to the Free, Pro, Team or Done-For-You plan. Deterministic, makes no outbound network calls, every input optional. Check each answer against your own setup before you send it. The same draft works offline with `npx -y spurvik@1.0.12 rfp` |
 
 ```bash

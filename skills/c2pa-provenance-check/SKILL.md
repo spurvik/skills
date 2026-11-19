@@ -1,6 +1,6 @@
 ---
 name: c2pa-provenance-check
-description: Audit AI-generated images, hero media and CDN image pipelines for C2PA provenance before the 2 December 2026 EU AI Act Art. 50(2) marking date. Finds DALL-E, gpt-image-1, Imagen, Flux, fal.ai, Replicate and Stability calls, checks live image URLs for an embedded C2PA manifest, its signature and CDN stripping (Next.js /_next/image, Cloudflare Polish, Imgix, Cloudinary) with the zero-install npx -y spurvik@1.0.12 c2pa CLI, a zero-key curl call, the spurvik_check_image_c2pa_url MCP tool (hosted or local stdio) or a local byte check, wires your own marking into the Spurvik SDK hook and adds a visible "AI-generated" label.
+description: Audit AI-generated images, hero media and CDN image pipelines for C2PA provenance before the 2 December 2026 EU AI Act Art. 50(2) marking date. Finds DALL-E, gpt-image-1, Imagen, Flux, fal.ai, Replicate and Stability calls, checks live image URLs (or bare store domains in 1 hop) for an embedded C2PA manifest, its signature and CDN stripping (Next.js /_next/image, Cloudflare Polish, Shopify CDN /cdn/shop/, Jetpack Photon, Webflow CDN, Imgix, Cloudinary) with the zero-install npx -y spurvik c2pa CLI, a zero-key curl call, the spurvik_check_image_c2pa_url MCP tool (hosted or local stdio) or a local byte check, wires your own marking into the Spurvik SDK hook and adds a visible "AI-generated" label.
 license: MIT
 ---
 
@@ -39,14 +39,15 @@ Pick one of three ways. A and B need no install, no account and no API key.
 **A. Hosted check with the CLI or curl.** One public PNG, JPEG or WebP image up to 4 MB per call. With Node 20+:
 
 ```bash
-npx -y spurvik@1.0.12 c2pa "https://yourdomain.com/hero.webp"
-npx -y spurvik@1.0.12 c2pa "https://yourdomain.com/hero.webp" --json --fail-on-missing   # for CI
+npx -y spurvik c2pa "yourdomain.com"                                    # 1-hop store hero/og:image auto-discovery
+npx -y spurvik c2pa "https://yourdomain.com/hero.webp"
+npx -y spurvik c2pa "https://yourdomain.com/hero.webp" --json --fail-on-missing   # for CI
 # Live public test vectors (signed JUMBF vs unmarked WebP):
 npx -y spurvik@1.0.12 c2pa "https://spurvik.com/media/c2pa-signed-sample.png"
 npx -y spurvik@1.0.12 c2pa "https://spurvik.com/media/art50-prism-loop.webp"
 ```
 
-It prints the manifest, signature and trust list result, names the image optimizer if the URL goes through one that strips C2PA (`/_next/image`, Cloudinary, Imgix, Cloudflare `/cdn-cgi/image/`), and gives the fix plus a visible "AI-generated" notice snippet. `--json` prints the same report as JSON (`status`, `manifestFound`, `signatureMatches`, `trustAnchor`, `validationCodes`, `imageProxy`, `diagnosis`). `--fail-on-missing` exits 2 when there is no manifest or the signature does not match; usage and network errors also exit 2, and 0 means the check passed. It sends only the URL you pass to console.spurvik.com and refuses non-https, non-443, credentialed, `localhost`, `.local`/`.internal` and private-IP URLs before any request. It reads; it never signs.
+It prints the manifest, signature and trust list result, names the image optimizer if the URL goes through one that strips C2PA (`/_next/image`, Shopify CDN `/cdn/shop/`, WordPress Jetpack Photon `i*.wp.com`, Webflow CDN, Cloudinary, Imgix, Cloudflare `/cdn-cgi/image/`), and gives the fix plus a visible "AI-generated" notice snippet (localized via `<html lang>` or ccTLD across all 24 EU languages). `--json` prints the same report as JSON (`status`, `manifestFound`, `signatureMatches`, `trustAnchor`, `validationCodes`, `imageProxy`, `diagnosis`). `--fail-on-missing` exits 2 when there is no manifest or the signature does not match; usage and network errors also exit 2, and 0 means the check passed. It sends only the domain or URL you pass to console.spurvik.com and refuses non-https, non-443, credentialed, `localhost`, `.local`/`.internal` and private-IP URLs before any request. It reads; it never signs.
 
 Without Node, the same check is one curl call:
 
@@ -64,7 +65,7 @@ For a C2PA test image (`C.jpg` from the open-source `c2pa-rs` fixtures) it retur
 
 `manifestFound` means a C2PA manifest is in the bytes, `signatureMatches` means the claim signature and data hash check out, and `trustAnchor` says whether the signer's certificate is on the C2PA trust list. An image with no manifest returns `"manifestFound":false` and `"trustAnchor":"not_checked"`. Errors return a non-200 status with `error.code` and `error.message` (for example, the image URL answered 404). The image is fetched once, checked in memory and not stored; no cookies are set. The limit is 10 checks per minute per IP. Run it from a terminal, CI job or server: requests sent cross-site from a browser get 403.
 
-**B. MCP tool `spurvik_check_image_c2pa_url`.** It is a zero-key tool on both the hosted Spurvik MCP server (`https://console.spurvik.com/api/mcp`; in Claude Code: `claude mcp add --transport http spurvik https://console.spurvik.com/api/mcp`) and the local stdio server (`npx -y spurvik-mcp-server@1.0.9`, which sends only the image URL to console.spurvik.com); both expose the same 10 tools. Call it with `{ "url": "https://example.com/uploads/hero.jpg" }`. It runs the same check and also reports whether the URL goes through an image optimizer that strips C2PA (`/_next/image`, Cloudinary, Imgix, Cloudflare `/cdn-cgi/image/`) and returns a visible "AI-generated" notice snippet. It is read-only and shares the 10 per minute limit.
+**B. MCP tool `spurvik_check_image_c2pa_url`.** It is a zero-key tool on both the hosted Spurvik MCP server (`https://console.spurvik.com/api/mcp`; in Claude Code: `claude mcp add --transport http spurvik https://console.spurvik.com/api/mcp`) and the local stdio server (`npx -y spurvik-mcp-server@1.0.9`, listed as `io.github.spurvik/spurvik-mcp-server` in the official MCP Registry); both expose the same 10 tools. Call it with `{ "url": "https://example.com/uploads/hero.jpg" }` or a bare public domain `{ "url": "charlie-paris.com" }` (which auto-discovers the frontpage `og:image` / hero image in 1 SSRF-vetted hop). It runs the same check and also reports whether the URL goes through an image optimizer that strips C2PA (`/_next/image`, Shopify CDN `/cdn/shop/`, Jetpack Photon, Webflow CDN, Cloudinary, Imgix, Cloudflare `/cdn-cgi/image/`) and returns a visible "AI-generated" notice snippet. It is read-only and shares the 10 per minute limit.
 
 **C. Local byte check.** Use it for files over 4 MB, other formats, or when the images should not leave the user's machine:
 
