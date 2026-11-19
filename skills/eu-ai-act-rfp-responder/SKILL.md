@@ -19,15 +19,15 @@ Run these before writing any answer. They need no account and no API key.
 **1. Repo audit.** From the repo root:
 
 ```bash
-npx -y spurvik@1.0.12 audit .          # unwrapped OpenAI / Anthropic / Gemini / AI SDK calls as file:line
+npx -y spurvik@1.0.12 audit .          # unwrapped OpenAI / Anthropic / Gemini / AI SDK / Python calls as file:line
 npx -y spurvik@1.0.12 audit . --json   # the same, as JSON for the evidence ledger
 ```
 
 It runs locally and prints only `file:line` and the provider, never source text. Then find the controls that are already wired:
 
 ```bash
-git grep -nIE "withSpurvik|spurvikMiddleware|createSpurvikNeedsApproval|spurvikInterrupt|verifyHitlWebhook|guardTool|askHuman" -- '*.ts' '*.tsx' '*.js' '*.mjs' '*.py'
-git grep -nIE "spurvik\.com/badge\.js|data-spurvik-badge|AIDisclosureLabel|Article50Badge|data-attribution" -- '*.html' '*.tsx' '*.jsx' '*.liquid' '*.php'
+git grep -nIE "withSpurvik|spurvikMiddleware|createSpurvikNeedsApproval|spurvikInterrupt|verifyHitlWebhook|guardTool|askHuman|spurvik_guard|send_telemetry_event|request_human_approval" -- '*.ts' '*.tsx' '*.js' '*.mjs' '*.py'
+git grep -nIE "spurvik\.com/badge\.js|data-spurvik-badge|AIDisclosureLabel|Article50Badge|data-attribution|art50_badge_html" -- '*.html' '*.tsx' '*.jsx' '*.liquid' '*.php' '*.py'
 git grep -nIE "contentHash|SPURVIK_CONTENT_HASH_SECRET|riskTier" -- '*.ts' '*.tsx' '*.js' '*.mjs' '*.py'
 ```
 
@@ -39,13 +39,14 @@ npx -y spurvik@1.0.12 scan "app.example.com" --json
 
 The JSON has `detectedWidgets`, `covered`, `badgeSnippet` and `links.reportUrl`. The MCP tool `spurvik_scan_live_url` runs the same check. The scan reads one public page; a widget or notice that loads only after login can be missed, so say which page was scanned.
 
-**3. AI image provenance.** If the product serves AI-generated images, check one delivered image URL per surface:
+**3. AI image provenance.** If the product serves AI-generated images, check one delivered image URL per surface (or pass the public store/app domain to auto-discover its frontpage hero/`og:image` in 1 hop):
 
 ```bash
+npx -y spurvik@1.0.12 c2pa "app.example.com" --json --fail-on-missing
 npx -y spurvik@1.0.12 c2pa "https://app.example.com/hero.webp" --json --fail-on-missing
 ```
 
-`--fail-on-missing` exits `2` when the image has no C2PA (JUMBF) manifest or its signature does not match, including when an optimizer strips it (`/_next/image`, Cloudflare `/cdn-cgi/image/`, Cloudinary, Imgix). It exits `0` when the check passes. Only pass public `https://` URLs from the user's own product, quoted. Never send localhost, private IPs or signed or tokenized URLs.
+`--fail-on-missing` exits `2` when the image has no C2PA (JUMBF) manifest or its signature does not match, including when an optimizer strips it (`/_next/image`, Shopify CDN `/cdn/shop/`, Jetpack Photon, Webflow CDN, Cloudflare `/cdn-cgi/image/`, Cloudinary, Imgix). It exits `0` when the check passes. Only pass public domains or `https://` URLs from the user's own product, quoted. Never send localhost, private IPs or signed or tokenized URLs.
 
 **4. Risk tier.** Call the MCP tool `spurvik_classify_ai_act_risk` with the owner's answers about the use case. It is on the hosted server (`https://console.spurvik.com/api/mcp`; in Claude Code: `claude mcp add --transport http spurvik https://console.spurvik.com/api/mcp`) and the local stdio server (`npx -y spurvik-mcp-server@1.0.9`). Both servers expose the same 10 zero-key tools, including `spurvik_classify_ai_act_risk`. The result is a self-assessment; the owner confirms the tier. The dates that frame the answers:
 
@@ -92,7 +93,7 @@ Most enterprise questionnaires ask these five questions in some form. Map each c
 Every input is optional. Set each one from the ledger instead of leaving the defaults:
 
 - `plan`: `free`, `pro`, `team` or `concierge` (Done-For-You). Default `pro`.
-- `provider`: `openai`, `anthropic`, `google-genai`, `vercel-ai-sdk`, `langgraph`, `openai-agents`, `mastra` or `custom`. Default `openai`.
+- `provider`: `openai`, `anthropic`, `google-genai`, `vercel-ai-sdk`, `langgraph`, `openai-agents`, `mastra`, `python` or `custom`. Default `openai`.
 - `hasHighRiskActions`: the agent can call side-effect tools (Q4). Default `true`.
 - `generatesMedia`: the product generates images, audio or video (Q1, Art. 50(2)). Default `false`.
 - `domain`: the product's public domain, used as the product name in the answers. An invalid domain is dropped.
@@ -103,7 +104,7 @@ Both shortcuts write each answer from Spurvik's shipped controls for that plan. 
 
 Separate what is live from what can be enabled:
 
-- **Live:** quote the file and the scan result, for example: "Users see an 'AI system' notice in their language before they interact with [feature] (verified by an automated scan of [URL] on [date])."
+- **Live:** quote the file and the scan result, for example: "Users see an 'AI system' notice in their language before they interact with [feature] (confirmed by an automated scan of [URL] on [date])."
 - **Can be enabled in under 5 minutes:** the visible notice is one line, `<script src="https://spurvik.com/badge.js" data-system="[feature]" defer></script>`, or `<AIDisclosureLabel />` from `spurvik/react`. Say it is planned, not live, until it ships.
 - **Art. 50(2) marking:** report the `c2pa` result per image surface (`manifestFound`, `signatureMatches`). The marking comes from the image generator or the user's own C2PA signer; Spurvik checks for it and does not sign. A stripped manifest needs a pipeline fix (see `c2pa-provenance-check`), which is more than a 5-minute change.
 
@@ -113,7 +114,7 @@ Art. 12 is a high-risk duty; for other systems, present logging as a control the
 
 > Each AI call produces an event with keyed HMAC-SHA256 fingerprints of the input and output (`inputHash`, `outputHash`) and a receipt signed with HMAC-SHA256. In the Spurvik workspace, each audit record stores the previous record's hash as `prevLogHash` and its own `recordHash` (SHA-256 over its fields, including `prevLogHash`), so a later edit or deletion breaks the chain. When retention deletes older records, a signed checkpoint is stored and the chain continues from it.
 
-Use only these field names. If the repo uses the local `spurvik-log` logger from the `eu-ai-act` skill instead of the SDK, describe its stdout fields exactly as they appear in that file and do not call them SDK receipts or a hash chain. List any unwrapped calls from the audit as a gap with a fix date. `spurvik_explain_receipt` explains and optionally verifies one receipt for the evidence pack.
+Use only these field names. For Python 3.10+ services (`FastAPI`, `LangChain`, `PydanticAI`, `Django`) wired with `spurvik_guard.py` (`send_telemetry_event`), it hashes prompts and outputs locally via keyed `hmac.new(..., hashlib.sha256)` (`inputHash`, `outputHash`) before posting metadata to Frankfurt (`fra1`), where the workspace chains `prevLogHash` and `recordHash`. If the repo uses the local `spurvik-log` logger from the `eu-ai-act` skill instead of the SDK or `spurvik_guard.py`, describe its stdout fields exactly as they appear in that file and do not call them SDK receipts or a hash chain. List any unwrapped calls from the audit as a gap with a fix date. `spurvik_explain_receipt` explains and optionally verifies one receipt for the evidence pack.
 
 ### Q3: GDPR Art. 5(1)(c) data minimisation and EU data residency
 
@@ -130,7 +131,7 @@ Art. 14 is a high-risk duty (Annex III from 2 December 2027). Describe determini
 | Found in the repo | Accurate description |
 | --- | --- |
 | `guardTool` with `askHuman` (from the `eu-ai-act` skill) | In-app approval before side-effect tools run |
-| Tool approval through `spurvikMiddleware` (`spurvik/ai`), `createSpurvikNeedsApproval` (`spurvik/openai-agents`) or `spurvikInterrupt` (`spurvik/langgraph`) | Approval step in the agent framework, wired through the Spurvik SDK |
+| Tool approval through `spurvikMiddleware` (`spurvik/ai`), `createSpurvikNeedsApproval` (`spurvik/openai-agents`), `spurvikInterrupt` (`spurvik/langgraph`) or `request_human_approval` (`spurvik_guard.py` in Python) | Approval step in the agent framework or Python backend, wired through Spurvik |
 | Spurvik hosted approval queue (Pro and higher), with approvals in Slack or Microsoft Teams; webhooks checked with `verifyHitlWebhook` | Hosted review queue; each decision is kept with the event in Frankfurt |
 
 If none is found, answer "Not in place today", list the side-effect tools the agent can call, and give the fix date (see `eu-ai-act`, Step 3).

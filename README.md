@@ -21,7 +21,7 @@ npx -y spurvik@1.0.12 rfp yourdomain.com --plan pro             # offline draft 
 
 Add `--json` for machine output. `scan` and `audit` take `--fail-on-gap` to fail a CI job on a gap; `c2pa` takes `--fail-on-missing`, which exits 2 when the image has no C2PA manifest or its signature does not match. `audit` runs locally and prints only `file:line` and the provider, never source text. `c2pa` checks one public https PNG, JPEG or WebP image up to 4 MB (or auto-discovers a store's frontpage hero image in 1 hop from a bare domain), names the image optimizer that strips the manifest (`/_next/image`, Shopify CDN `/cdn/shop/`, Jetpack Photon, Webflow CDN, Cloudinary, Imgix, Cloudflare) and refuses localhost and private-IP URLs before any request. It reads; it never signs.
 
-`rfp` makes no network request. It drafts the same Q1–Q5 Markdown as MCP tool #10 `spurvik_vendor_questionnaire_answers`: `npx -y spurvik@1.0.12 rfp [domain] [--plan free|pro|team|concierge] [--provider openai|anthropic|google-genai|vercel-ai-sdk|langgraph|openai-agents|mastra|custom] [--generates-media] [--no-high-risk-actions] [--json]`. Run `audit`, `scan` and `c2pa` first, and keep only the answers that evidence shows as live.
+`rfp` makes no network request. It drafts the same Q1–Q5 Markdown as MCP tool #10 `spurvik_vendor_questionnaire_answers`: `npx -y spurvik@1.0.12 rfp [domain] [--plan free|pro|team|concierge] [--provider openai|anthropic|google-genai|vercel-ai-sdk|langgraph|openai-agents|mastra|python|custom] [--generates-media] [--no-high-risk-actions] [--json]`. Run `audit`, `scan` and `c2pa` first, and keep only the answers that evidence shows as live.
 
 Without Node 20+, the same image check is one curl call:
 
@@ -97,7 +97,7 @@ npx -y spurvik-mcp-server@1.0.9
 - Sandbox: https://console.spurvik.com/sandbox
 - Free EU AI Act risk check: https://console.spurvik.com/risk-check
 - Free Art. 50(2) C2PA manifest and CDN-strip checker: https://console.spurvik.com/c2pa
-- Free agency batch scanner (up to 10 domains): https://console.spurvik.com/portfolio
+- Free agency batch scanner (up to 10 domains): https://console.spurvik.com/portfolio (interactive agency retainer & margin simulator in [EN](https://spurvik.com/eu-ai-act-for-agencies), [DE](https://spurvik.com/de/ki-verordnung-fuer-agenturen-artikel-50-white-label), [FR](https://spurvik.com/fr/reglement-ia-pour-agences-audit-clients-article-50))
 - EU AI Act vendor security questionnaire answers (5 questions, `.md` export): https://spurvik.com/eu-ai-act-vendor-security-questionnaire
 - Workspace (Frankfurt, fra1): https://console.spurvik.com/signup
 - Plans: https://spurvik.com/#pricing

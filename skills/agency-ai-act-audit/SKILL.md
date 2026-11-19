@@ -53,17 +53,17 @@ Each JSON file has `detectedWidgets`, `covered`, `badgeSnippet` and `links.repor
 The install depends on the platform. Check the homepage source:
 
 ```bash
-curl -sSfL --proto '=https' --max-filesize 5000000 "https://$d/" | grep -oiE "cdn\.shopify\.com|/wp-content/|data-wf-site|framerusercontent\.com" | sort -u
+curl -sSfL --proto '=https' --max-filesize 5000000 "https://$d/" | grep -oiE "cdn\.shopify\.com|/wp-content/|data-wf-site|framerusercontent\.com|prestashop|shopware|dandomain|centra" | sort -u
 ```
 
-`cdn.shopify.com` is Shopify, `/wp-content/` is WordPress, `data-wf-site` is Webflow and `framerusercontent.com` is Framer. No match means custom code.
+`cdn.shopify.com` is Shopify, `/wp-content/` is WordPress, `data-wf-site` is Webflow, `framerusercontent.com` is Framer, `prestashop` is PrestaShop, `shopware` is Shopware 6, `dandomain` is DanDomain and `centra` is Centra. No match means custom code.
 
 | Platform | Install for a gap |
 | --- | --- |
 | Shopify | Online Store 2.0 section https://spurvik.com/r/spurvik-shopify-art50.liquid saved as `sections/spurvik-art50-notice.liquid`, then added to the footer. Language follows `request.locale.iso_code`; position defaults to `bottom-left`. |
 | WordPress | Plugin v1.1.0 https://spurvik.com/r/spurvik-eu-ai-act-wp.zip (Plugins, Add New, Upload Plugin). `[spurvik_status_shield]` shows the live shield in a footer widget. |
 | Framer | https://spurvik.com/r/spurvik-framer-badge.tsx pasted into Assets, Code, New Code File, then `SpurvikArticle50Badge` dragged onto the page. |
-| Webflow, custom SaaS | One line before `</body>` (Webflow: Site settings, Custom code, Footer code): `<script src="https://spurvik.com/badge.js" data-system="<client>" data-locale="<lang>" data-position="bottom-left" defer></script>` |
+| Webflow, PrestaShop, Shopware 6, DanDomain, Centra, custom SaaS | One line before `</body>` (Webflow: Site settings, Custom code, Footer code; PrestaShop: `themes/<theme>/templates/_partials/footer.tpl`; Shopware 6: `Resources/views/storefront/base.html.twig`): `<script src="https://spurvik.com/badge.js" data-system="<client>" data-locale="<lang>" data-position="bottom-left" defer></script>` |
 
 `bottom-left` keeps the notice clear of chat launchers on the bottom right. Use the `data-locale` from the scan's suggested fix when there is one.
 
@@ -86,7 +86,7 @@ Tell the agency, in plain words:
 
 - **Free (€0):** the scan, the reports, the status shields, `badge.js` and the plugins. The free cockpit at https://console.spurvik.com/portfolio scans up to 10 domains in the browser and exports CSV or Markdown.
 - **White-label on Pro (€19/mo, €190/yr):** `data-attribution="false"` hides the small "Art. 50 · Spurvik" link, so the notice carries only the client's brand.
-- **Team (€79/mo, €790/yr) for multi-client work:** everything in Pro with white-label per client project, 2,000,000 events a month and 12-month log retention: https://console.spurvik.com/signup?plan=team
+- **Team (€79/mo, €790/yr) for multi-client work:** everything in Pro with white-label per client project, 2,000,000 events a month, 12-month log retention and Annex IV technical documentation drafts: https://console.spurvik.com/signup?plan=team (interactive agency retainer & margin simulator in EN: https://spurvik.com/eu-ai-act-for-agencies, DE: https://spurvik.com/de/ki-verordnung-fuer-agenturen-artikel-50-white-label, FR: https://spurvik.com/fr/reglement-ia-pour-agences-audit-clients-article-50)
 - **Done-For-You 24h Setup (€199 once per site):** a Spurvik engineer installs the notice within 24 hours; 1 full year of Pro is included. Prefill the client's domain: `https://console.spurvik.com/signup?plan=concierge&appUrl=<domain>`
 
 Prices are excl. VAT, B2B.
