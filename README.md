@@ -77,7 +77,7 @@ Listed in the official MCP Registry as `io.github.spurvik/spurvik-mcp-server` (a
 | `spurvik_batch_scan_domains` | Scans 1 to 10 public domains in parallel (for example an agency's client sites). Returns the widget and SDK gaps, a `badge.js` fix in each site's language (24 EU languages), a shareable `/report?domain=` brief URL and a live status shield in Markdown per domain |
 | `spurvik_classify_ai_act_risk` | Self-assessment from a few answers: prohibited, high-risk (Annex III), Art. 50 only, minimal or outside the EU. You still decide your tier |
 | `spurvik_generate_art50_badge` | Copy-paste Art. 50 notice (badge.js tag or React snippet) in any of the 24 EU languages |
-| `spurvik_setup_snippet` | Setup snippets for OpenAI, Anthropic, Gemini, Vercel AI SDK, Mastra, OpenAI Agents, LangGraph, React, Python, FastAPI, LangChain & PydanticAI (`spurvik_guard.py`) |
+| `spurvik_setup_snippet` | Setup snippets for OpenAI, Anthropic, Gemini, Vercel AI SDK, Mastra, OpenAI Agents, LangGraph, React, Python, FastAPI, LangChain, PydanticAI (`spurvik_guard.py`), Shopify (`.liquid`), WordPress (`wp_footer` / `.zip`), Webflow & HTML (`badge.js`) |
 | `spurvik_find_unwrapped_calls` | Heuristic scan of pasted TypeScript/JS or Python code (or a workspace directory on stdio) for AI calls not wrapped with Spurvik |
 | `spurvik_explain_receipt` | Explains (and optionally verifies) an HMAC call receipt |
 | `spurvik_marking_hooks` | How to plug your own Art. 50(2) marking into the SDK |
