@@ -18,6 +18,7 @@ npx -y spurvik@1.0.12 scan yourdomain.com                       # AI chat widget
 npx -y spurvik@1.0.12 audit .                                   # unwrapped OpenAI / Anthropic / Gemini / AI SDK / Python calls as file:line
 npx -y spurvik@1.0.12 c2pa yourdomain.com                       # 1-hop store hero/og:image C2PA & CDN-strip check (or pass a direct https image URL)
 npx -y spurvik@1.0.12 rfp yourdomain.com --plan pro             # offline draft of the 5 EU AI Act vendor questionnaire answers (Q1–Q5)
+npx -y spurvik risk yourdomain.com                              # offline EU AI Act risk tier + DPO Self-Assessment (.md) record
 ```
 
 Add `--json` for machine output. `scan` and `audit` take `--fail-on-gap` to fail a CI job on a gap; `c2pa` takes `--fail-on-missing`, which exits 2 when the image has no C2PA manifest or its signature does not match. `audit` runs locally and prints only `file:line` and the provider, never source text. `c2pa` checks one public https PNG, JPEG or WebP image up to 4 MB (or auto-discovers a store's frontpage hero image in 1 hop from a bare domain), names the image optimizer that strips the manifest (`/_next/image`, Shopify CDN `/cdn/shop/`, Jetpack Photon, Webflow CDN, Cloudinary, Imgix, Cloudflare) and refuses localhost and private-IP URLs before any request. It reads; it never signs.
@@ -76,7 +77,7 @@ Listed in the official MCP Registry as `io.github.spurvik/spurvik-mcp-server` (a
 | --- | --- |
 | `spurvik_scan_live_url` | Scans one public HTTPS page for AI chat widgets and SDKs, checks for a visible Art. 50(1) notice and returns a one-line fix |
 | `spurvik_batch_scan_domains` | Scans 1 to 10 public domains in parallel (for example an agency's client sites). Returns the widget and SDK gaps, a `badge.js` fix in each site's language (24 EU languages), a shareable `/report?domain=` brief URL and a live status shield in Markdown per domain |
-| `spurvik_classify_ai_act_risk` | Self-assessment from a few answers: prohibited, high-risk (Annex III), Art. 50 only, minimal or outside the EU. You still decide your tier |
+| `spurvik_classify_ai_act_risk` | Deterministic EU AI Act risk-tier mapping (`prohibited_art5`, `high_risk_annex_iii`, `limited_transparency_art50`, `minimal_risk`) with optional `siteDomain` + `locale` prefill and `selfAssessmentMarkdown`. You still decide your tier |
 | `spurvik_generate_art50_badge` | Copy-paste Art. 50 notice (badge.js tag or React snippet) in any of the 24 EU languages |
 | `spurvik_setup_snippet` | Setup snippets for OpenAI, Anthropic, Gemini, Vercel AI SDK, Mastra, OpenAI Agents, LangGraph, React, Python, FastAPI, LangChain, PydanticAI (`spurvik_guard.py`), Shopify (`.liquid`), WordPress (`wp_footer` / `.zip`), Webflow & HTML (`badge.js`) |
 | `spurvik_find_unwrapped_calls` | Heuristic scan of pasted TypeScript/JS or Python code (or a workspace directory — `package.json`, `pyproject.toml`, `requirements.txt` — on stdio) for AI calls not wrapped with Spurvik |
