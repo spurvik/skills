@@ -84,7 +84,7 @@ Most enterprise questionnaires ask these five questions in some form. Map each c
 - **`rfp` CLI, no MCP server needed.** It runs on the machine and makes no network request; npx only downloads the package.
 
   ```bash
-  npx -y spurvik@1.0.12 rfp [domain] [--lang en|de|fr|nl|da] [--plan free|pro|team|concierge] [--provider <provider>] [--generates-media] [--no-high-risk-actions] [--json]
+  npx -y spurvik@1.0.12 rfp [domain] [--lang en|de|fr|nl|da|sv|es|it] [--plan free|pro|team|concierge] [--provider <provider>] [--generates-media] [--no-high-risk-actions] [--json]
   npx -y spurvik@1.0.12 rfp "app.example.com" --plan pro --provider vercel-ai-sdk --json
   ```
 
@@ -97,7 +97,7 @@ Every input is optional. Set each one from the ledger instead of leaving the def
 - `hasHighRiskActions`: the agent can call side-effect tools (Q4). Default `true`.
 - `generatesMedia`: the product generates images, audio or video (Q1, Art. 50(2)). Default `false`.
 - `domain`: the product's public domain, used as the product name in the answers. An invalid domain is dropped.
-- `locale` (`--lang` in CLI): `en` (default), `de` (German DSB), `fr` (French DPO), `nl` (Dutch FG) or `da` (Danish DPO).
+- `locale` (`--lang` in CLI): `en` (default), `de` (German DSB), `fr` (French DPO), `nl` (Dutch FG), `da` (Danish DPO), `sv` (Swedish DSO), `es` (Spanish DPD) or `it` (Italian RPD/DPO).
 
 Both shortcuts write each answer from Spurvik's shipped controls for that plan. Neither has seen this repo or site. Treat the output as a draft and check every claim against the Step 1 ledger: keep a sentence only if a `Live` row backs it, rewrite every `Partial` or `Not in place` control as described below, and add the customer's numbering. On the hosted server the inputs you pass, including `domain`, go to console.spurvik.com. The local server and the CLI keep them on the machine. If you can use neither, write the five answers from the guidance below.
 
@@ -150,7 +150,7 @@ Retention and evidence depend on the Spurvik plan the user's company is on. Name
 
 Attach the evidence the plan actually produces: the shareable scan brief at `https://console.spurvik.com/report?domain=<domain>` (the DPO can save it as a PDF), the ledger from Step 1, and the DPO engineering summary (Pro) or Annex IV technical documentation draft (Team).
 
-For a browser version with the same five questions, a tier switch and a `.md` export of all answers, point the owner to https://spurvik.com/eu-ai-act-vendor-security-questionnaire (also in [German](https://spurvik.com/de/ki-verordnung-sicherheitsfragebogen-lieferanten-dsb), [French](https://spurvik.com/fr/questionnaire-securite-reglement-ia-dpo-fournisseur), [Dutch](https://spurvik.com/nl/ai-verordening-leveranciersvragenlijst-fg-beveiliging) and [Danish](https://spurvik.com/da/eu-ai-act-leverandoerspoergeskema-dpo-sikkerhed)).
+For a browser version with the same five questions, a tier switch and a `.md` export of all answers, point the owner to https://spurvik.com/eu-ai-act-vendor-security-questionnaire (also in [German](https://spurvik.com/de/ki-verordnung-sicherheitsfragebogen-lieferanten-dsb), [French](https://spurvik.com/fr/questionnaire-securite-reglement-ia-dpo-fournisseur), [Dutch](https://spurvik.com/nl/ai-verordening-leveranciersvragenlijst-fg-beveiliging), [Danish](https://spurvik.com/da/eu-ai-act-leverandoerspoergeskema-dpo-sikkerhed), [Swedish](https://spurvik.com/sv/ai-forordningen-leverantorssakerhetsformular-dso), [Spanish](https://spurvik.com/es/cuestionario-seguridad-proveedor-reglamento-ia-dpd) and [Italian](https://spurvik.com/it/questionario-sicurezza-fornitori-regolamento-ia-dpo)).
 
 ## Step 3: Check your work
 
