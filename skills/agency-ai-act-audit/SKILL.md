@@ -53,15 +53,16 @@ Each JSON file has `detectedWidgets`, `covered`, `badgeSnippet` and `links.repor
 The install depends on the platform. Check the homepage source:
 
 ```bash
-curl -sSfL --proto '=https' --max-filesize 5000000 "https://$d/" | grep -oiE "cdn\.shopify\.com|/wp-content/|data-wf-site|framerusercontent\.com|prestashop|shopware|dandomain|centra" | sort -u
+curl -sSfL --proto '=https' --max-filesize 5000000 "https://$d/" | grep -oiE "cdn\.shopify\.com|/wp-content/|googletagmanager\.com|data-wf-site|framerusercontent\.com|prestashop|shopware|dandomain|centra" | sort -u
 ```
 
-`cdn.shopify.com` is Shopify, `/wp-content/` is WordPress, `data-wf-site` is Webflow, `framerusercontent.com` is Framer, `prestashop` is PrestaShop, `shopware` is Shopware 6, `dandomain` is DanDomain and `centra` is Centra. No match means custom code.
+`cdn.shopify.com` is Shopify, `/wp-content/` is WordPress, `googletagmanager.com` is Google Tag Manager, `data-wf-site` is Webflow, `framerusercontent.com` is Framer, `prestashop` is PrestaShop, `shopware` is Shopware 6, `dandomain` is DanDomain and `centra` is Centra. No match means custom code.
 
 | Platform | Install for a gap |
 | --- | --- |
 | Shopify | Online Store 2.0 section https://spurvik.com/r/spurvik-shopify-art50.liquid saved as `sections/spurvik-art50-notice.liquid`, then added to the footer. Language follows `request.locale.iso_code`; position defaults to `bottom-left`. |
 | WordPress | Plugin v1.1.0 https://spurvik.com/r/spurvik-eu-ai-act-wp.zip (Plugins, Add New, Upload Plugin). `[spurvik_status_shield]` shows the live shield in a footer widget. |
+| Google Tag Manager | Container recipe https://spurvik.com/r/spurvik-gtm-art50-container.json (GTM Admin, Import Container, Merge; fires on `DOM Ready` with 4 editable variables). |
 | Framer | https://spurvik.com/r/spurvik-framer-badge.tsx pasted into Assets, Code, New Code File, then `SpurvikArticle50Badge` dragged onto the page. |
 | Webflow, PrestaShop, Shopware 6, DanDomain, Centra, custom SaaS | One line before `</body>` (Webflow: Site settings, Custom code, Footer code; PrestaShop: `themes/<theme>/templates/_partials/footer.tpl`; Shopware 6: `Resources/views/storefront/base.html.twig`): `<script src="https://spurvik.com/badge.js" data-system="<client>" data-locale="<lang>" data-position="bottom-left" defer></script>` |
 
