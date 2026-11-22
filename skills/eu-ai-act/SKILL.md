@@ -75,6 +75,11 @@ Where the line goes:
 
 If the site sends a Content-Security-Policy, add `https://spurvik.com` to `script-src`.
 
+**Optional public README / `/privacy` live status shield (no cookies, links to the domain's shareable DPO report):**
+
+- **Markdown (`README.md` or docs):** `[![EU AI Act Art. 50](https://console.spurvik.com/api/v1/badge/status.svg?domain=<domain>)](https://console.spurvik.com/report?domain=<domain>)`
+- **HTML (`/privacy` or site footer):** `<a href="https://console.spurvik.com/report?domain=<domain>" rel="noopener"><img src="https://console.spurvik.com/api/v1/badge/status.svg?domain=<domain>" alt="EU AI Act Art. 50 status for <domain>" height="20" /></a>`
+
 ## Step 2: Log each AI call with HMAC fingerprints only
 
 Ask the user to create a secret and store it as an environment variable. Never commit it.

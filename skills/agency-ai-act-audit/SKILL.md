@@ -42,15 +42,15 @@ while IFS= read -r d; do
 done < clients.txt
 ```
 
-Each JSON file has `detectedWidgets`, `covered`, `badgeSnippet` and `links.reportUrl`. The status shield Markdown for any domain is:
+Each JSON row from `spurvik_batch_scan_domains`, `spurvik_scan_live_url` and `npx -y spurvik@1.0.13 scan --json` includes `detectedWidgets`, `detectedPlatforms` (`Shopify`, `WordPress`, `Google Tag Manager`, `Webflow`, `Framer`, `Next.js`), `platformInstallerUrls` (`shopifyLiquid`, `wordpressPluginZip`, `gtmContainerJson`, `framerComponentTsx`, `webflowGuide`, `nextjsShadcnRegistry`), `badgeSnippet` and `reportUrl`. The status shield Markdown for any domain is:
 
 ```md
 [![EU AI Act Art. 50](https://console.spurvik.com/api/v1/badge/status.svg?domain=<domain>)](https://console.spurvik.com/report?domain=<domain>)
 ```
 
-## Step 3: Find each client's platform
+## Step 3: Match each client's detected platform
 
-The install depends on the platform. Check the homepage source:
+Use `detectedPlatforms` and `platformInstallerUrls` from Step 2 first. Only if a site runs PrestaShop, Shopware 6, DanDomain or Centra (not in `detectedPlatforms`), check the homepage source:
 
 ```bash
 curl -sSfL --proto '=https' --max-filesize 5000000 "https://$d/" | grep -oiE "cdn\.shopify\.com|/wp-content/|googletagmanager\.com|data-wf-site|framerusercontent\.com|prestashop|shopware|dandomain|centra" | sort -u
