@@ -97,6 +97,7 @@ npx -y spurvik-mcp-server@1.0.10
 
 ## Try it
 
+- European Language Portals (14 native guides + live Art. 50 scanner each): [EN](https://spurvik.com/) · [DE](https://spurvik.com/de) · [FR](https://spurvik.com/fr) · [NL](https://spurvik.com/nl) · [DA](https://spurvik.com/da) · [SV](https://spurvik.com/sv) · [ES](https://spurvik.com/es) · [IT](https://spurvik.com/it)
 - Sandbox: https://console.spurvik.com/sandbox
 - Free EU AI Act risk check: https://console.spurvik.com/risk-check
 - Free Art. 50(2) C2PA manifest and CDN-strip checker: https://console.spurvik.com/c2pa (interactive 2 Dec 2026 scope & C2PA cockpits in [EN](https://spurvik.com/eu-ai-act-2-december-2026-c2pa-provenance), [DE](https://spurvik.com/de/ki-verordnung-2-dezember-2026-artikel-50-c2pa-herkunftsnachweis), [FR](https://spurvik.com/fr/reglement-ia-2-decembre-2026-article-50-provenance-c2pa), [NL](https://spurvik.com/nl/ai-verordening-2-december-2026-artikel-50-c2pa-herkomst), [DA](https://spurvik.com/da/eu-ai-act-2-december-2026-artikel-50-c2pa-oprindelse), [SV](https://spurvik.com/sv/ai-forordningen-2-december-2026-artikel-50-c2pa-ursprung), [ES](https://spurvik.com/es/reglamento-ia-2-diciembre-2026-articulo-50-procedencia-c2pa), [IT](https://spurvik.com/it/regolamento-ia-2-dicembre-2026-articolo-50-provenienza-c2pa))
