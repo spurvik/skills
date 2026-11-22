@@ -42,7 +42,7 @@ while IFS= read -r d; do
 done < clients.txt
 ```
 
-Each JSON row from `spurvik_batch_scan_domains`, `spurvik_scan_live_url` and `npx -y spurvik@1.0.13 scan --json` includes `detectedWidgets`, `detectedPlatforms` (`Shopify`, `WordPress`, `Google Tag Manager`, `Webflow`, `Framer`, `Next.js`), `platformInstallerUrls` (`shopifyLiquid`, `wordpressPluginZip`, `gtmContainerJson`, `framerComponentTsx`, `webflowGuide`, `nextjsShadcnRegistry`), `badgeSnippet` and `reportUrl`. The status shield Markdown for any domain is:
+Each JSON row from `spurvik_batch_scan_domains`, `spurvik_scan_live_url` and `npx -y spurvik@1.0.13 scan --json` includes `detectedWidgets`, `detectedPlatforms` (`Shopify`, `WordPress`, `Google Tag Manager`, `Webflow`, `Framer`, `Next.js`), `platformInstallerUrls` (`shopifyLiquid`, `wordpressPluginZip`, `gtmContainerJson`, `framerComponentTsx`, `webflowGuide`, `nextjsShadcnRegistry`), optional `heroImageProxy` (`{ name, fix, c2paCheckUrl }` when the frontpage hero image runs through a C2PA-stripping CDN ahead of 2 December 2026 Art. 50(2)), `badgeSnippet` and `reportUrl`. The status shield Markdown for any domain is:
 
 ```md
 [![EU AI Act Art. 50](https://console.spurvik.com/api/v1/badge/status.svg?domain=<domain>)](https://console.spurvik.com/report?domain=<domain>)
