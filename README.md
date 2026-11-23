@@ -18,6 +18,7 @@ npx -y spurvik@1.0.14 scan yourdomain.com                       # AI chat widget
 npx -y spurvik@1.0.14 audit .                                   # unwrapped OpenAI / Anthropic / Gemini / AI SDK / Python calls as file:line
 npx -y spurvik@1.0.14 c2pa yourdomain.com                       # 1-hop store hero/og:image C2PA & CDN-strip check (or pass a direct https image URL)
 npx -y spurvik@1.0.14 rfp yourdomain.com --plan pro             # offline draft of the 5 EU AI Act vendor questionnaire answers (Q1–Q5)
+npx -y spurvik gate yourdomain.com                              # offline 6-vector Art. 14 fail-closed blocking self-test (spurvik/channels)
 npx -y spurvik risk yourdomain.com                              # offline EU AI Act risk tier + DPO Self-Assessment (.md) record
 ```
 
