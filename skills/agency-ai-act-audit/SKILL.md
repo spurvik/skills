@@ -29,7 +29,19 @@ Both servers expose the same 10 zero-key tools, including `spurvik_batch_scan_do
 
 If one entry is not a public host, the whole batch is refused and nothing is fetched. Remove that entry and run it again.
 
-**Fallback: the zero-install CLI** (2 to 10 public domains in one command, or a loop for larger rosters):
+**Fallback A: zero-key OpenAPI 3.1 REST endpoint** (no Node.js needed — `curl`, Custom GPT Actions, Copilot Studio, Zapier or Make; `Cache-Control: no-store`, 0 cookies):
+
+```bash
+curl -fsSL "https://console.spurvik.com/api/v1/portfolio/scan?domains=client1.eu,client2.fr,client3.se&locale=en"
+# Or POST JSON:
+curl -fsSL -X POST https://console.spurvik.com/api/v1/portfolio/scan \
+  -H "content-type: application/json" \
+  -d '{"domains":["client1.eu","client2.fr"],"locale":"fr"}'
+```
+
+Returns `summary`, `results` (per-domain `detectedWidgets`, `detectedPlatforms`, `heroImageC2paProxy`, `statusShieldMarkdown`, `reportUrl`, `doneForYouSetupEur199Url`), and a copy-paste `markdownTable`.
+
+**Fallback B: the zero-install CLI** (2 to 10 public domains in one command, or a loop for larger rosters):
 
 ```bash
 # Single-command multi-domain batch scan (2–10 public domains at once, 4 in flight):
