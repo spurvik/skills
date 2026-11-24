@@ -27,8 +27,9 @@ npx -y spurvik@1.0.14 setup                   # auto-detect stack (Next/AI SDK/F
 npx -y spurvik@1.0.14 audit .                 # model calls not yet logged, as file:line (never source text)
 npx -y spurvik@1.0.14 scan <the-live-domain>  # if the site is live: AI widgets and Art. 50(1) notice status
 npx -y spurvik@1.0.14 risk <the-live-domain>  # deterministic Art. 5 / Annex III / Art. 50 risk tier & DPO Self-Assessment (.md)
-# Zero-Node HTTP JSON equivalent (10 EU languages, 0 cookies, 0 API key):
+# Zero-Node HTTP JSON equivalents (0 cookies, 0 API key):
 curl -fsSL "https://console.spurvik.com/api/v1/risk/classify?domain=<the-live-domain>&preset=support-chatbot"
+curl -fsSL "https://console.spurvik.com/api/v1/badge/snippet?domain=<the-live-domain>&notice=interaction"
 ```
 
 ## Step 1: Add the Art. 50(1) notice
