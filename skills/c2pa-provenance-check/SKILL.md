@@ -49,9 +49,13 @@ npx -y spurvik@1.0.14 c2pa "https://spurvik.com/media/art50-prism-loop.webp"
 
 It prints the manifest, signature and trust list result, names the image optimizer if the URL goes through one that strips C2PA (`/_next/image`, Shopify CDN `/cdn/shop/`, WordPress Jetpack Photon `i*.wp.com`, Webflow CDN, Cloudinary, Imgix, Cloudflare `/cdn-cgi/image/`), and gives the fix plus a visible "AI-generated" notice snippet (localized via `<html lang>` or ccTLD across all 24 EU languages). `--json` prints the same report as JSON (`status`, `manifestFound`, `signatureMatches`, `trustAnchor`, `validationCodes`, `imageProxy`, `diagnosis`). `--fail-on-missing` exits 2 when there is no manifest or the signature does not match; usage and network errors also exit 2, and 0 means the check passed. It sends only the domain or URL you pass to console.spurvik.com and refuses non-https, non-443, credentialed, `localhost`, `.local`/`.internal` and private-IP URLs before any request. It reads; it never signs.
 
-Without Node, the same check is one curl call:
+Without Node, the same check is one curl call (`GET` for images or 1-hop store domains, or headerless `POST`):
 
 ```bash
+curl -sS "https://console.spurvik.com/api/v1/c2pa/check?url=https://example.com/uploads/hero.jpg"
+# Or pass a bare store domain for 1-hop heroImageUrl discovery + CDN-strip diagnosis:
+curl -sS "https://console.spurvik.com/api/v1/c2pa/check?url=charlie-paris.fr"
+# Or headerless POST:
 curl -sS -X POST https://console.spurvik.com/api/v1/provenance/public-check-url \
   -H "content-type: application/json" \
   -d '{"url":"https://example.com/uploads/hero.jpg"}'
