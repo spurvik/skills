@@ -73,6 +73,9 @@ Where the line goes:
   });
   ```
 - **WordPress plugin v1.1.0 (no code):** Plugins, Add New, Upload Plugin with https://spurvik.com/r/spurvik-eu-ai-act-wp.zip. Add `[spurvik_status_shield]` to a footer widget, a Shortcode block or the privacy page for a live status shield that links to the site's report.
+- **PrestaShop 1.7 / 8 / 9 module (no code):** Back Office, Modules, Module Manager, Upload a module with https://spurvik.com/r/spurvik-prestashop-art50.zip (auto-maps `$this->context->language->iso_code` across all 24 EU languages, 0 cookies).
+- **Shopware 6.5 / 6.6+ extension (no code):** Administration, Extensions, My extensions, Upload extension with https://spurvik.com/r/spurvik-shopware6-art50.zip (auto-maps `app.request.locale` across all 24 EU languages, 0 cookies).
+- **Cloudflare Edge Worker (no origin edits):** deploy https://spurvik.com/r/cloudflare-worker-art50-c2pa.js (`HTMLRewriter` 24-language `badge.js` + `cf: { polish: "off", mirage: false }` C2PA preservation).
 - **Google Tag Manager (no code):** Admin, Import Container, choose https://spurvik.com/r/spurvik-gtm-art50-container.json, Merge (Rename conflicting tags). Fires on `DOM Ready` (`supportDocumentWrite: false`) with 4 editable variables (`Spurvik - System Name`, `Spurvik - Position`, `Spurvik - Locale`, `Spurvik - Attribution`).
 - **Framer:** paste https://spurvik.com/r/spurvik-framer-badge.tsx into Assets, Code, New Code File, then drag `SpurvikArticle50Badge` onto the page.
 - **shadcn / v0 (React):** `npx shadcn@latest add https://spurvik.com/r/article-50-badge.json`, then render `<Article50Badge systemName="Support Assistant" />`.
