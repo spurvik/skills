@@ -32,6 +32,7 @@ curl -fsSL "https://console.spurvik.com/api/v1/risk/classify?domain=<the-live-do
 curl -fsSL "https://console.spurvik.com/api/v1/badge/snippet?domain=<the-live-domain>&notice=interaction"
 curl -fsSL "https://console.spurvik.com/api/v1/setup/snippet?target=fastapi&domain=<the-live-domain>"
 curl -fsSL -X POST "https://console.spurvik.com/api/v1/audit/unwrapped" -H "content-type: application/json" -d '{"files":[{"path":"src/ai.ts","content":"..."}],"domain":"<the-live-domain>"}'
+curl -fsSL -X POST "https://console.spurvik.com/api/v1/receipt/verify" -H "content-type: application/json" -d '{"callbackUrl":"https://api.<the-live-domain>/spurvik/callback?gateId=...","signingSecret":"$SPURVIK_SIGNING_SECRET"}'
 ```
 
 ## Step 1: Add the Art. 50(1) notice
