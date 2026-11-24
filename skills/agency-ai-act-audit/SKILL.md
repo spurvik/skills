@@ -33,6 +33,8 @@ If one entry is not a public host, the whole batch is refused and nothing is fet
 
 ```bash
 curl -fsSL "https://console.spurvik.com/api/v1/portfolio/scan?domains=client1.eu,client2.fr,client3.se&locale=en"
+# Or export a ready-to-paste 1-page client Markdown brief (with live Art. 50 + C2PA SVG shields):
+curl -fsSL "https://console.spurvik.com/api/v1/report/markdown?domain=client1.eu&format=raw"
 # Or POST JSON:
 curl -fsSL -X POST https://console.spurvik.com/api/v1/portfolio/scan \
   -H "content-type: application/json" \
@@ -54,15 +56,16 @@ while IFS= read -r d; do
 done < clients.txt
 ```
 
-Each JSON row from `spurvik_batch_scan_domains`, `spurvik_scan_live_url` and `npx -y spurvik@1.0.14 scan --json` includes `detectedWidgets`, `detectedPlatforms` (`Shopify`, `WordPress`, `Google Tag Manager`, `Webflow`, `Framer`, `Next.js`), `platformInstallerUrls` (`shopifyLiquid`, `wordpressPluginZip`, `gtmContainerJson`, `framerComponentTsx`, `webflowGuide`, `nextjsShadcnRegistry`), optional `heroImageProxy` (`{ name, fix, c2paCheckUrl }` when the frontpage hero image runs through a C2PA-stripping CDN ahead of 2 December 2026 Art. 50(2)), `badgeSnippet` and `reportUrl`. The status shield Markdown for any domain is:
+Each JSON row from `spurvik_batch_scan_domains`, `spurvik_scan_live_url` and `npx -y spurvik@1.0.14 scan --json` includes `detectedWidgets`, `detectedPlatforms` (`Shopify`, `WordPress`, `PrestaShop`, `Shopware`, `Google Tag Manager`, `Webflow`, `Framer`, `Next.js`), `platformInstallerUrls` (`shopifyLiquid`, `wordpressPluginZip`, `prestashopModuleZip`, `shopwareExtensionZip`, `gtmContainerJson`, `framerComponentTsx`, `webflowGuide`, `nextjsShadcnRegistry`), optional `heroImageProxy` (`{ name, fix, c2paCheckUrl }` when the frontpage hero image runs through a C2PA-stripping CDN ahead of 2 December 2026 Art. 50(2)), `badgeSnippet` and `reportUrl`. The status shield Markdown for any domain is:
 
 ```md
 [![EU AI Act Art. 50](https://console.spurvik.com/api/v1/badge/status.svg?domain=<domain>)](https://console.spurvik.com/report?domain=<domain>)
+[![EU AI Act Art. 50(2) C2PA](https://console.spurvik.com/api/v1/c2pa/status.svg?domain=<domain>)](https://console.spurvik.com/c2pa?domain=<domain>)
 ```
 
 ## Step 3: Match each client's detected platform
 
-Use `detectedPlatforms` and `platformInstallerUrls` from Step 2 first. Only if a site runs PrestaShop, Shopware 6, DanDomain or Centra (not in `detectedPlatforms`), check the homepage source:
+Use `detectedPlatforms` and `platformInstallerUrls` from Step 2 first (`spurvik-prestashop-art50.zip` for PrestaShop 1.7/8/9, `spurvik-shopware6-art50.zip` for Shopware 6.5/6.6+, `spurvik-eu-ai-act-wp.zip` for WordPress, `spurvik-shopify-art50.liquid` for Shopify, and `cloudflare-worker-art50-c2pa.js` behind Cloudflare). Only if a site runs DanDomain or Centra, check the homepage source:
 
 ```bash
 curl -sSfL --proto '=https' --max-filesize 5000000 "https://$d/" | grep -oiE "cdn\.shopify\.com|/wp-content/|googletagmanager\.com|data-wf-site|framerusercontent\.com|prestashop|shopware|dandomain|centra" | sort -u
