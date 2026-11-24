@@ -31,6 +31,7 @@ npx -y spurvik@1.0.14 risk <the-live-domain>  # deterministic Art. 5 / Annex III
 curl -fsSL "https://console.spurvik.com/api/v1/risk/classify?domain=<the-live-domain>&preset=support-chatbot"
 curl -fsSL "https://console.spurvik.com/api/v1/badge/snippet?domain=<the-live-domain>&notice=interaction"
 curl -fsSL "https://console.spurvik.com/api/v1/setup/snippet?target=fastapi&domain=<the-live-domain>"
+curl -fsSL -X POST "https://console.spurvik.com/api/v1/audit/unwrapped" -H "content-type: application/json" -d '{"files":[{"path":"src/ai.ts","content":"..."}],"domain":"<the-live-domain>"}'
 ```
 
 ## Step 1: Add the Art. 50(1) notice
