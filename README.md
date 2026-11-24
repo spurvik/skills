@@ -69,11 +69,11 @@ npm i spurvik
 
 `withSpurvik(client, config)` wraps OpenAI, Anthropic and Gemini clients. `spurvikMiddleware` from `spurvik/ai` plugs into the Vercel AI SDK, with adapters for Mastra, OpenAI Agents and LangGraph. It records each call with a keyed HMAC receipt; the prompt and output text are not sent. MIT, source at [spurvik/spurvik](https://github.com/spurvik/spurvik).
 
-For **Python 3.10+ (FastAPI, LangChain, PydanticAI, Django, OpenAI Python SDK)** with zero extra pip dependencies: `curl -fsSLO https://spurvik.com/r/spurvik_guard.py` ([interactive Python cockpit](https://spurvik.com/python-fastapi-langchain-eu-ai-act-logging)).
+For **Python 3.10+ (FastAPI, LangChain, PydanticAI, Django, OpenAI Python SDK)** with zero extra pip dependencies: `curl -fsSLO https://spurvik.com/r/spurvik_guard.py` (includes `verify_signed_callback` + offline 6-vector Art. 14 blocking self-test `python3 spurvik_guard.py [domain] [--json]`; [interactive Python cockpit](https://spurvik.com/python-fastapi-langchain-eu-ai-act-logging)).
 
 ## MCP server
 
-Listed in the official MCP Registry as `io.github.spurvik/spurvik-mcp-server` (and `com.spurvik/eu-ai-act`). For OpenAI Custom GPT Actions, Microsoft Copilot Studio, Dust, Dify, Zapier or Make, import `https://console.spurvik.com/openapi.json` (A2A Agent Card: `https://console.spurvik.com/.well-known/agent.json`). The hosted server at `https://console.spurvik.com/api/mcp` and the local stdio server `spurvik-mcp-server@1.0.11` expose the same 10 zero-key tools:
+Listed in the official MCP Registry as `io.github.spurvik/spurvik-mcp-server` (and `com.spurvik/eu-ai-act`). For OpenAI Custom GPT Actions, Microsoft Copilot Studio, Dust, Dify, Zapier or Make, import `https://console.spurvik.com/openapi.json` (includes `GET https://console.spurvik.com/api/v1/gate/self-test?domain=yourdomain.com` 6-vector Art. 14 gate benchmark; A2A Agent Card: `https://console.spurvik.com/.well-known/agent.json`). The hosted server at `https://console.spurvik.com/api/mcp` and the local stdio server `spurvik-mcp-server@1.0.11` expose the same 10 zero-key tools:
 
 | Tool | What it does |
 | --- | --- |
