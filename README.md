@@ -73,7 +73,7 @@ For **Python 3.10+ (FastAPI, LangChain, PydanticAI, Django, OpenAI Python SDK)**
 
 ## MCP server
 
-Listed in the official MCP Registry as `io.github.spurvik/spurvik-mcp-server` (and `com.spurvik/eu-ai-act`). For OpenAI Custom GPT Actions, Microsoft Copilot Studio, Dust, Dify, Zapier or Make, import `https://console.spurvik.com/openapi.json` (includes `GET https://console.spurvik.com/api/v1/gate/self-test?domain=yourdomain.com` 6-vector Art. 14 gate benchmark; A2A Agent Card: `https://console.spurvik.com/.well-known/agent.json`). The hosted server at `https://console.spurvik.com/api/mcp` and the local stdio server `spurvik-mcp-server@1.0.11` expose the same 10 zero-key tools:
+Listed in the official MCP Registry as `io.github.spurvik/spurvik-mcp-server` (and `com.spurvik/eu-ai-act`). For OpenAI Custom GPT Actions, Microsoft Copilot Studio, Dust, Dify, Zapier or Make, import `https://console.spurvik.com/openapi.json` (includes `GET https://console.spurvik.com/api/v1/gate/self-test?domain=yourdomain.com` 6-vector Art. 14 gate benchmark and `GET https://console.spurvik.com/api/v1/rfp/answers?domain=yourdomain.com&plan=pro` 8-language vendor RFP & DPO questionnaire generator; A2A Agent Card: `https://console.spurvik.com/.well-known/agent.json`). The hosted server at `https://console.spurvik.com/api/mcp` and the local stdio server `spurvik-mcp-server@1.0.11` expose the same 10 zero-key tools:
 
 | Tool | What it does |
 | --- | --- |

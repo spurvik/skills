@@ -90,6 +90,12 @@ Most enterprise questionnaires ask these five questions in some form. Map each c
 
   `--generates-media` sets `generatesMedia` to `true` and `--no-high-risk-actions` sets `hasHighRiskActions` to `false`. Without `--json` it prints the Markdown. With `--json` it returns `plan`, `provider`, `hasHighRiskActions`, `generatesMedia`, `domain`, `markdown`, `interactiveUrl`, `reportUrl` and `upgradeUrls`. An unknown `--plan`, `--provider` or `--lang` exits `2`.
 
+- **Zero-key REST JSON (`GET /api/v1/rfp/answers`), no Node/npm needed.** For bash-only containers, Custom GPT Actions, or Microsoft Copilot Studio (`https://console.spurvik.com/openapi.json`):
+
+  ```bash
+  curl -fsSL "https://console.spurvik.com/api/v1/rfp/answers?domain=app.example.com&plan=pro&provider=vercel-ai-sdk&locale=en"
+  ```
+
 Every input is optional. Set each one from the ledger instead of leaving the defaults:
 
 - `plan`: `free`, `pro`, `team` or `concierge` (Done-For-You). Default `pro`.
