@@ -30,6 +30,7 @@ npx -y spurvik@1.0.14 risk <the-live-domain>  # deterministic Art. 5 / Annex III
 # Zero-Node HTTP JSON equivalents (0 cookies, 0 API key):
 curl -fsSL "https://console.spurvik.com/api/v1/risk/classify?domain=<the-live-domain>&preset=support-chatbot"
 curl -fsSL "https://console.spurvik.com/api/v1/badge/snippet?domain=<the-live-domain>&notice=interaction"
+curl -fsSL "https://console.spurvik.com/api/v1/setup/snippet?target=fastapi&domain=<the-live-domain>"
 ```
 
 ## Step 1: Add the Art. 50(1) notice
