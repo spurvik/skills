@@ -59,7 +59,7 @@ No cookies, no network telemetry, 24 EU languages, Shadow DOM. Works in plain HT
 - **WordPress plugin v1.1.0 (no code):** [spurvik-eu-ai-act-wp.zip](https://spurvik.com/r/spurvik-eu-ai-act-wp.zip), via Plugins, Add New, Upload Plugin. Add `[spurvik_status_shield]` to a footer widget or Shortcode block for a live status shield.
 - **PrestaShop 1.7 / 8 / 9 module (no code):** [spurvik-prestashop-art50.zip](https://spurvik.com/r/spurvik-prestashop-art50.zip), uploaded via Modules, Module Manager, Upload a module.
 - **Shopware 6.5 / 6.6+ extension (no code):** [spurvik-shopware6-art50.zip](https://spurvik.com/r/spurvik-shopware6-art50.zip), uploaded via Extensions, My extensions, Upload extension.
-- **Cloudflare Edge Worker (no origin edits):** [cloudflare-worker-art50-c2pa.js](https://spurvik.com/r/cloudflare-worker-art50-c2pa.js) (`HTMLRewriter` Art. 50(1) notice + C2PA `polish: "off"` passthrough).
+- **Cloudflare Edge Worker (no origin edits):** [cloudflare-worker-art50-c2pa.js](https://spurvik.com/r/cloudflare-worker-art50-c2pa.js) (`/.well-known/ai-act.json` edge proxy + `HTMLRewriter` Art. 50(1) notice + C2PA `polish: "off"` passthrough; interactive `/trust` & manifest studio at [spurvik.com/well-known-ai-act-json-trust-center](https://spurvik.com/well-known-ai-act-json-trust-center)).
 - **Google Tag Manager container (no code):** [spurvik-gtm-art50-container.json](https://spurvik.com/r/spurvik-gtm-art50-container.json), imported via GTM Admin, Import Container, Merge (`DOM Ready`, 4 editable variables).
 - **Framer component:** [spurvik-framer-badge.tsx](https://spurvik.com/r/spurvik-framer-badge.tsx), pasted into Assets, Code, New Code File.
 - **shadcn / v0 registry:** `npx shadcn@latest add https://spurvik.com/r/article-50-badge.json`
