@@ -10,6 +10,12 @@ npx skills add spurvik/skills
 
 Then ask your agent: *"Use the eu-ai-act skill on this project."*
 
+Using GitHub Copilot (VS Code / JetBrains / GitHub.com PR Review), Claude Code, Cursor, or Codex? Drop in repo-wide EU AI Act & GDPR guardrails in one command:
+
+```bash
+mkdir -p .github .cursor/rules && curl -fsSL https://spurvik.com/r/copilot-instructions.md -o .github/copilot-instructions.md && curl -fsSL https://spurvik.com/r/CLAUDE.md -o CLAUDE.md && curl -fsSL https://spurvik.com/r/spurvik-cursor-rules.mdc -o .cursor/rules/spurvik-eu-ai-act.mdc && curl -fsSL https://spurvik.com/r/AGENTS.md -o AGENTS.md
+```
+
 ## Check a site, a repo or an image first (zero install, no API key)
 
 ```bash
