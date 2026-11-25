@@ -185,7 +185,7 @@ Spurvik does not mark or sign content. For Art. 50(2) machine-readable marking o
 2. Make one AI call. The log line has `inputHmac` and `outputHmac`, and no prompt or output text appears anywhere in the logs.
 3. Trigger a gated tool. It waits for approval and does nothing when the person declines.
 4. `git status` shows no `.env` file or secret.
-5. `npx -y spurvik@1.0.16 audit .` reports 0 unwrapped calls. A file that imports the `spurvik-log` / `spurvik_log` logger counts as covered.
+5. `npx -y spurvik@1.0.16 audit .` reports 0 unwrapped calls. A file that imports the `spurvik-log` / `spurvik_log` logger counts as covered. (For GitHub repositories, you may also add `- uses: spurvik/spurvik@v1` in `.github/workflows/spurvik-check.yml` so PRs fail on unwrapped calls and render the Art. 50 + C2PA shield summary.)
 6. After deploy, `npx -y spurvik@1.0.16 scan <domain> --fail-on-gap` exits 0. Exit 1 means an AI widget was found without an Art. 50(1) notice.
 
 ## Step 6: Tell your human owner

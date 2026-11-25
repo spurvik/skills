@@ -65,6 +65,7 @@ No cookies, no network telemetry, 24 EU languages, Shadow DOM. Works in plain HT
 - **Google Tag Manager container (no code):** [spurvik-gtm-art50-container.json](https://spurvik.com/r/spurvik-gtm-art50-container.json), imported via GTM Admin, Import Container, Merge (`DOM Ready`, 4 editable variables).
 - **Framer component:** [spurvik-framer-badge.tsx](https://spurvik.com/r/spurvik-framer-badge.tsx), pasted into Assets, Code, New Code File.
 - **shadcn / v0 registry:** `npx shadcn@latest add https://spurvik.com/r/article-50-badge.json`
+- **2-line GitHub Actions PR gate:** `uses: spurvik/spurvik@v1` (with optional `domain`, `c2pa-url` & `annex-iv-use-case` inputs; standalone workflow at [github-action-spurvik-check.yml](https://spurvik.com/r/github-action-spurvik-check.yml))
 
 ## SDK
 
