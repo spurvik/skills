@@ -21,6 +21,7 @@ mkdir -p .github .cursor/rules && curl -fsSL https://spurvik.com/r/copilot-instr
 ```bash
 npx -y spurvik@1.0.17 setup                                     # auto-detect stack (Next/AI SDK/FastAPI/Shopify/WP/React) & print SDK/badge setup
 npx -y spurvik@1.0.17 scan yourdomain.com                       # AI chat widgets + Art. 50(1) notice status (supports 1–10 domains at once)
+npx -y spurvik@1.0.17 report yourdomain.com                     # shareable 1-page DPO & client readiness brief (aliases: brief, dpo)
 npx -y spurvik@1.0.17 audit .                                   # unwrapped OpenAI / Anthropic / Gemini / AI SDK / Python calls as file:line
 npx -y spurvik@1.0.17 c2pa yourdomain.com                       # 1-hop store hero/og:image C2PA & CDN-strip check (or pass a direct https image URL)
 npx -y spurvik@1.0.17 annex-iv yourdomain.com --use-case employment # offline 9-section EU AI Act Art. 11 & Annex IV draft (ANNEX_IV.md)
@@ -28,6 +29,8 @@ npx -y spurvik@1.0.17 rfp yourdomain.com --plan pro             # offline draft 
 npx -y spurvik@1.0.17 gate yourdomain.com                       # offline 6-vector Art. 14 fail-closed blocking self-test (spurvik/channels)
 npx -y spurvik@1.0.17 risk yourdomain.com                       # offline EU AI Act risk tier + DPO Self-Assessment (.md) record
 ```
+
+Gate Pull/Merge Requests in GitHub Actions (`uses: spurvik/spurvik@v1`), European GitLab CI (`include: [{ remote: "https://spurvik.com/r/gitlab-ci-spurvik-check.yml" }]`), or Bitbucket Pipelines (`https://spurvik.com/r/bitbucket-pipelines-spurvik.yml`), and export a 10-language Notion/Confluence/Vanta Trust-Center Markdown section via `curl -fsSL "https://console.spurvik.com/api/v1/badge/trust-center.md?domain=yourdomain.com" -o TRUST_CENTER_AI_ACT.md`.
 
 Add `--json` for machine output. `scan` and `audit` take `--fail-on-gap` to fail a CI job on a gap; `c2pa` takes `--fail-on-missing`, which exits 2 when the image has no C2PA manifest or its signature does not match. `audit` runs locally and prints only `file:line` and the provider, never source text. `c2pa` checks one public https PNG, JPEG or WebP image up to 4 MB (or auto-discovers a store's frontpage hero image in 1 hop from a bare domain), names the image optimizer that strips the manifest (`/_next/image`, Shopify CDN `/cdn/shop/`, Jetpack Photon, Webflow CDN, Cloudinary, Imgix, Cloudflare) and refuses localhost and private-IP URLs before any request. It reads; it never signs.
 
