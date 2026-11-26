@@ -23,7 +23,7 @@ Find where AI replies are rendered and where model or tool calls run. Look for `
 Two zero-install commands speed this up (no account, no API key):
 
 ```bash
-npx -y spurvik@1.0.17 setup                   # auto-detect stack (Next/AI SDK/FastAPI/Shopify/WP/React) & print SDK/badge setup
+npx -y spurvik@1.0.17 setup                   # auto-detect stack (Next/AI SDK/Mistral/FastAPI/Laravel/Symfony/Shopify/WP) & print SDK/badge setup
 npx -y spurvik@1.0.17 audit .                 # model calls not yet logged, as file:line (never source text)
 npx -y spurvik@1.0.17 scan <the-live-domain>  # if the site is live: AI widgets and Art. 50(1) notice status
 npx -y spurvik@1.0.17 risk <the-live-domain>  # deterministic Art. 5 / Annex III / Art. 50 risk tier & DPO Self-Assessment (.md)
