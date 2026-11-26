@@ -64,7 +64,7 @@ Where the line goes:
   // inside <body>
   <Script src="https://spurvik.com/badge.js" data-system="Support Assistant" strategy="afterInteractive" />
   ```
-- **Shopify (Online Store 2.0, preferred):** Online Store, Themes, Edit code, Sections, Add a new section named `spurvik-art50-notice`. Replace its contents with https://spurvik.com/r/spurvik-shopify-art50.liquid so it becomes `sections/spurvik-art50-notice.liquid`. Then Customize, Footer, Add section, "Spurvik Art. 50 notice". Language Auto maps `request.locale.iso_code` to the 24 EU languages (English fallback). Position defaults to `bottom-left`, so Gorgias, Tidio and Shopify Inbox launchers on the right stay clear.
+- **Shopify (Online Store 2.0, preferred):** Online Store, Themes, Edit code, Sections, Add a new section named `spurvik-art50-notice`. Replace its contents with https://spurvik.com/r/spurvik-shopify-art50.liquid so it becomes `sections/spurvik-art50-notice.liquid` (and optionally add `spurvik-trust-card` from https://spurvik.com/r/spurvik-shopify-trust-card.liquid on `/pages/trust` or `/pages/privacy-policy`). Language Auto maps `request.locale.iso_code` to the 24 EU languages (English fallback). Position defaults to `bottom-left`, so Gorgias, Tidio and Shopify Inbox launchers on the right stay clear.
 - **Shopify (legacy themes):** `layout/theme.liquid`, just before `</body>`.
 - **WordPress:** a child theme's `functions.php`:
   ```php
@@ -72,7 +72,7 @@ Where the line goes:
     echo '<script src="https://spurvik.com/badge.js" data-system="Support Assistant" defer></script>';
   });
   ```
-- **WordPress plugin v1.1.0 (no code):** Plugins, Add New, Upload Plugin with https://spurvik.com/r/spurvik-eu-ai-act-wp.zip. Add `[spurvik_status_shield]` to a footer widget, a Shortcode block or the privacy page for a live status shield that links to the site's report.
+- **WordPress plugin v1.2.0 (no code):** Plugins, Add New, Upload Plugin with https://spurvik.com/r/spurvik-eu-ai-act-wp.zip. Includes `[spurvik_trust_card]` (`/trust` or `/privacy` card), `[spurvik_status_shield]`, `[spurvik_c2pa_shield]`, and a 1-click `/.well-known/ai-act.json` publisher in Settings → Spurvik AI Notice.
 - **PrestaShop 1.7 / 8 / 9 module (no code):** Back Office, Modules, Module Manager, Upload a module with https://spurvik.com/r/spurvik-prestashop-art50.zip (auto-maps `$this->context->language->iso_code` across all 24 EU languages, 0 cookies).
 - **Shopware 6.5 / 6.6+ extension (no code):** Administration, Extensions, My extensions, Upload extension with https://spurvik.com/r/spurvik-shopware6-art50.zip (auto-maps `app.request.locale` across all 24 EU languages, 0 cookies).
 - **Cloudflare Edge Worker (no origin edits):** deploy https://spurvik.com/r/cloudflare-worker-art50-c2pa.js (`HTMLRewriter` 24-language `badge.js` + `cf: { polish: "off", mirage: false }` C2PA preservation).
