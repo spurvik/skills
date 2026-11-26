@@ -1,11 +1,14 @@
 # Spurvik Skills
 
 [![EU AI Act Art. 50](https://console.spurvik.com/api/v1/badge/status.svg?domain=spurvik.com)](https://console.spurvik.com/report?domain=spurvik.com)
+[![Add MCP to Cursor](https://img.shields.io/badge/%2B_Add_MCP-Cursor-10B981)](cursor://anysphere.cursor-deeplink/mcp/install?name=spurvik&config=eyJ1cmwiOiJodHRwczovL2NvbnNvbGUuc3B1cnZpay5jb20vYXBpL21jcCJ9)
+[![Add MCP to VS Code](https://img.shields.io/badge/%2B_Add_MCP-VS_Code-38BDF8)](vscode:mcp/install?%7B%22name%22%3A%22spurvik%22%2C%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fconsole.spurvik.com%2Fapi%2Fmcp%22%7D)
 
 Five Agent Skills that add EU AI Act Art. 50 transparency notices, zero-prompt-text HMAC call logging and human approval gates to your AI app, draft 9-section Article 11 & Annex IV technical documentation (`ANNEX_IV.md`), check AI images for C2PA, audit client sites, and answer vendor security questionnaires from real evidence. They work in Claude Code, Cursor, Codex, Lovable, Bolt, Replit and any agent that reads `SKILL.md`.
 
 ```bash
 npx skills add spurvik/skills
+curl -fsSL https://spurvik.com/r/mcp.json -o .mcp.json
 ```
 
 Then ask your agent: *"Use the eu-ai-act skill on this project."*
