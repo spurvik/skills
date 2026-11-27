@@ -25,10 +25,10 @@ mkdir -p .github .cursor/rules && curl -fsSL https://spurvik.com/r/copilot-instr
 npx -y spurvik@1.0.18 setup                                     # auto-detect stack (Next/AI SDK/FastAPI/Shopify/WP/React) & print SDK/badge setup
 npx -y spurvik@1.0.18 scan yourdomain.com                       # AI chat widgets + Art. 50(1) notice status (supports 1–10 domains at once)
 npx -y spurvik@1.0.18 report yourdomain.com                     # shareable 1-page DPO & client readiness brief (aliases: brief, dpo)
-npx -y spurvik@1.0.18 audit .                                   # unwrapped OpenAI / Anthropic / Gemini / AI SDK / Python calls as file:line
+npx -y spurvik@1.0.18 audit .                                   # unwrapped AI calls across TS/JS, Python, PHP, Ruby, C#, Go & Java as file:line
 npx -y spurvik@1.0.18 c2pa yourdomain.com                       # 1-hop store hero/og:image C2PA & CDN-strip check (or pass a direct https image URL)
 npx -y spurvik@1.0.18 annex-iv yourdomain.com --use-case employment # offline 9-section EU AI Act Art. 11 & Annex IV draft (ANNEX_IV.md)
-npx -y spurvik@1.0.18 rfp yourdomain.com --plan pro             # offline draft of the 5 EU AI Act vendor questionnaire answers (Q1–Q5)
+npx -y spurvik@1.0.18 rfp yourdomain.com --plan pro --csv       # offline Q1–Q5 EU AI Act RFP answers (Markdown, --json, or --csv for Vanta/Excel)
 npx -y spurvik@1.0.18 gate yourdomain.com                       # offline 6-vector Art. 14 fail-closed blocking self-test (spurvik/channels)
 npx -y spurvik@1.0.18 risk yourdomain.com                       # offline EU AI Act risk tier + DPO Self-Assessment (.md) record
 ```
@@ -37,7 +37,7 @@ Gate Pull/Merge Requests in GitHub Actions (`uses: spurvik/spurvik@v1`), Europea
 
 Add `--json` for machine output. `scan` and `audit` take `--fail-on-gap` to fail a CI job on a gap; `c2pa` takes `--fail-on-missing`, which exits 2 when the image has no C2PA manifest or its signature does not match. `audit` runs locally and prints only `file:line` and the provider, never source text. `c2pa` checks one public https PNG, JPEG or WebP image up to 4 MB (or auto-discovers a store's frontpage hero image in 1 hop from a bare domain), names the image optimizer that strips the manifest (`/_next/image`, Shopify CDN `/cdn/shop/`, Jetpack Photon, Webflow CDN, Cloudinary, Imgix, Cloudflare) and refuses localhost and private-IP URLs before any request. It reads; it never signs.
 
-`rfp` makes no network request. It drafts the same Q1–Q5 Markdown as MCP tool #10 `spurvik_vendor_questionnaire_answers` (in all 8 flagship EU languages — English, German, French, Dutch, Danish, Swedish, Spanish or Italian): `npx -y spurvik@1.0.18 rfp [domain] [--plan free|pro|team|concierge] [--provider openai|anthropic|google-genai|vercel-ai-sdk|langgraph|openai-agents|mastra|python|custom] [--lang en|de|fr|nl|da|sv|es|it] [--generates-media] [--no-high-risk-actions] [--json]`. Run `audit`, `scan` and `c2pa` first, and keep only the answers that evidence shows as live.
+`rfp` makes no network request. It drafts the same Q1–Q5 Markdown (or RFC 4180 CSV via `--csv` for Vanta, SafeBase, Conveyor, Drata, Loopio & Excel) as MCP tool #10 `spurvik_vendor_questionnaire_answers` across all 8 flagship EU languages (`en`, `de`, `fr`, `nl`, `da`, `sv`, `es`, `it`) and sovereign EU stacks (`mistral`, `azure-openai`, `bedrock`, `litellm`, `laravel`, `rails`, `dotnet`, `go`, `spring-boot`): `npx -y spurvik@1.0.18 rfp [domain] [--plan free|pro|team|concierge] [--provider <provider>] [--lang en|de|fr|nl|da|sv|es|it] [--generates-media] [--no-high-risk-actions] [--json | --csv]`. Run `audit`, `scan` and `c2pa` first, and keep only the answers that evidence shows as live.
 
 Without Node 20+, the same image check is one curl call:
 

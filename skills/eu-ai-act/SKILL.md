@@ -27,9 +27,10 @@ npx -y spurvik@1.0.18 setup                   # auto-detect stack (Next/AI SDK/M
 npx -y spurvik@1.0.18 audit .                 # model calls not yet logged, as file:line (never source text)
 npx -y spurvik@1.0.18 scan <the-live-domain>  # if the site is live: AI widgets and Art. 50(1) notice status
 npx -y spurvik@1.0.18 risk <the-live-domain>  # deterministic Art. 5 / Annex III / Art. 50 risk tier & DPO Self-Assessment (.md)
-# Optional zero-dep single-file server guards & local pre-commit hook:
+# Optional zero-dep single-file server guards, OpenWebUI tools & local pre-commit hook:
 # Python 3.10+: https://spurvik.com/r/spurvik_guard.py | PHP 8.1+: https://spurvik.com/r/spurvik_guard.php
-# .NET 8+ / C#: https://spurvik.com/r/SpurvikGuard.cs | Go 1.21+: https://spurvik.com/r/spurvik_guard.go
+# Ruby/Rails:   https://spurvik.com/r/spurvik_guard.rb | .NET 8+:  https://spurvik.com/r/SpurvikGuard.cs
+# Go 1.21+:     https://spurvik.com/r/spurvik_guard.go | OpenWebUI: https://spurvik.com/r/openwebui-spurvik-tools.py
 # pre-commit:   curl -fsSL https://spurvik.com/r/pre-commit-config.yaml -o .pre-commit-config.yaml && pre-commit install
 # Zero-Node HTTP JSON equivalents (0 cookies, 0 API key):
 curl -fsSL "https://console.spurvik.com/api/v1/risk/classify?domain=<the-live-domain>&preset=support-chatbot"

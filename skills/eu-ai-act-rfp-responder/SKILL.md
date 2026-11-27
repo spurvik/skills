@@ -19,16 +19,16 @@ Run these before writing any answer. They need no account and no API key.
 **1. Repo audit.** From the repo root:
 
 ```bash
-npx -y spurvik@1.0.18 audit .          # unwrapped OpenAI / Anthropic / Gemini / AI SDK / Python calls as file:line
+npx -y spurvik@1.0.18 audit .          # unwrapped calls across TS/JS, Python, PHP/Laravel, Ruby/Rails, C#/.NET, Go & Java/Kotlin as file:line
 npx -y spurvik@1.0.18 audit . --json   # the same, as JSON for the evidence ledger
 ```
 
 It runs locally and prints only `file:line` and the provider, never source text. Then find the controls that are already wired:
 
 ```bash
-git grep -nIE "withSpurvik|spurvikMiddleware|createSpurvikNeedsApproval|spurvikInterrupt|verifyHitlWebhook|guardTool|askHuman|spurvik_guard|send_telemetry_event|request_human_approval" -- '*.ts' '*.tsx' '*.js' '*.mjs' '*.py'
-git grep -nIE "spurvik\.com/badge\.js|data-spurvik-badge|AIDisclosureLabel|Article50Badge|data-attribution|art50_badge_html" -- '*.html' '*.tsx' '*.jsx' '*.liquid' '*.php' '*.py'
-git grep -nIE "contentHash|SPURVIK_CONTENT_HASH_SECRET|riskTier" -- '*.ts' '*.tsx' '*.js' '*.mjs' '*.py'
+git grep -nIE "withSpurvik|spurvikMiddleware|createSpurvikNeedsApproval|spurvikInterrupt|verifyHitlWebhook|guardTool|askHuman|spurvik_guard|SpurvikGuard|send_telemetry_event|request_human_approval|SendTelemetryEvent|sendTelemetryEvent" -- '*.ts' '*.tsx' '*.js' '*.mjs' '*.py' '*.php' '*.rb' '*.cs' '*.go' '*.java' '*.kt'
+git grep -nIE "spurvik\.com/badge\.js|data-spurvik-badge|AIDisclosureLabel|Article50Badge|data-attribution|art50_badge_html|Art50BadgeHtml" -- '*.html' '*.tsx' '*.jsx' '*.liquid' '*.php' '*.py' '*.erb' '*.cshtml' '*.razor'
+git grep -nIE "contentHash|SPURVIK_CONTENT_HASH_SECRET|riskTier" -- '*.ts' '*.tsx' '*.js' '*.mjs' '*.py' '*.php' '*.rb' '*.cs' '*.go'
 ```
 
 **2. Live site scan.** If the product has a public URL, check that visitors see the Art. 50(1) notice:
@@ -84,22 +84,24 @@ Most enterprise questionnaires ask these five questions in some form. Map each c
 - **`rfp` CLI, no MCP server needed.** It runs on the machine and makes no network request; npx only downloads the package.
 
   ```bash
-  npx -y spurvik@1.0.18 rfp [domain] [--lang en|de|fr|nl|da|sv|es|it] [--plan free|pro|team|concierge] [--provider <provider>] [--generates-media] [--no-high-risk-actions] [--json]
-  npx -y spurvik@1.0.18 rfp "app.example.com" --plan pro --provider vercel-ai-sdk --json
+  npx -y spurvik@1.0.18 rfp [domain] [--lang en|de|fr|nl|da|sv|es|it] [--plan free|pro|team|concierge] [--provider <provider>] [--generates-media] [--no-high-risk-actions] [--json | --csv]
+  npx -y spurvik@1.0.18 rfp "app.example.com" --plan pro --provider mistral --json
+  npx -y spurvik@1.0.18 rfp "app.example.com" --plan pro --provider azure-openai --csv > rfp-vanta.csv
   ```
 
-  `--generates-media` sets `generatesMedia` to `true` and `--no-high-risk-actions` sets `hasHighRiskActions` to `false`. Without `--json` it prints the Markdown. With `--json` it returns `plan`, `provider`, `hasHighRiskActions`, `generatesMedia`, `domain`, `markdown`, `interactiveUrl`, `reportUrl` and `upgradeUrls`. An unknown `--plan`, `--provider` or `--lang` exits `2`.
+  `--generates-media` sets `generatesMedia` to `true` and `--no-high-risk-actions` sets `hasHighRiskActions` to `false`. Without `--json` or `--csv` it prints the Markdown. With `--csv` it prints RFC 4180 CSV (`Question_ID,EU_AI_Act_Article,Customer_Question,Vendor_Answer,Spurvik_Plan,Evidence_URL`, OWASP formula-injection guarded) ready for Vanta, SafeBase, Conveyor, Drata, Loopio, OneTrust, or Microsoft Excel. With `--json` it returns `plan`, `provider`, `hasHighRiskActions`, `generatesMedia`, `domain`, `markdown`, `interactiveUrl`, `reportUrl` and `upgradeUrls`. An unknown `--plan`, `--provider` or `--lang` exits `2`.
 
-- **Zero-key REST JSON (`GET /api/v1/rfp/answers`), no Node/npm needed.** For bash-only containers, Custom GPT Actions, or Microsoft Copilot Studio (`https://console.spurvik.com/openapi.json`):
+- **Zero-key REST JSON, Markdown, or RFC 4180 CSV (`GET /api/v1/rfp/answers`), no Node/npm needed.** For bash-only containers, Vanta/SafeBase/Excel exports, Custom GPT Actions, or Microsoft Copilot Studio (`https://console.spurvik.com/openapi-actions.json` & `https://console.spurvik.com/openapi.json`):
 
   ```bash
-  curl -fsSL "https://console.spurvik.com/api/v1/rfp/answers?domain=app.example.com&plan=pro&provider=vercel-ai-sdk&locale=en"
+  curl -fsSL "https://console.spurvik.com/api/v1/rfp/answers?domain=app.example.com&plan=pro&provider=mistral&locale=en"
+  curl -fsSL "https://console.spurvik.com/api/v1/rfp/answers?domain=app.example.com&plan=pro&provider=azure-openai&locale=de&format=csv" -o rfp-dsb.csv
   ```
 
 Every input is optional. Set each one from the ledger instead of leaving the defaults:
 
 - `plan`: `free`, `pro`, `team` or `concierge` (Done-For-You). Default `pro`.
-- `provider`: `openai`, `anthropic`, `google-genai`, `vercel-ai-sdk`, `langgraph`, `openai-agents`, `mastra`, `python` or `custom`. Default `openai`.
+- `provider`: `openai`, `anthropic`, `google-genai`, `vercel-ai-sdk`, `mistral`, `azure-openai`, `bedrock`, `litellm`, `langgraph`, `openai-agents`, `mastra`, `python`, `laravel`, `php`, `rails`, `ruby`, `dotnet`, `go`, `spring-boot` or `custom`. Default `openai`.
 - `hasHighRiskActions`: the agent can call side-effect tools (Q4). Default `true`.
 - `generatesMedia`: the product generates images, audio or video (Q1, Art. 50(2)). Default `false`.
 - `domain`: the product's public domain, used as the product name in the answers. An invalid domain is dropped.
