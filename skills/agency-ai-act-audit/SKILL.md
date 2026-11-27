@@ -33,6 +33,9 @@ If one entry is not a public host, the whole batch is refused and nothing is fet
 
 ```bash
 curl -fsSL "https://console.spurvik.com/api/v1/portfolio/scan?domains=client1.eu,client2.fr,client3.se&locale=en"
+# Or stream RFC 4180 CSV (UTF-8 BOM) directly into Excel Power Query, Vanta, or Google Sheets:
+# Google Sheets cell A1: =IMPORTDATA("https://console.spurvik.com/api/v1/portfolio/scan?domains=client1.eu,client2.fr,client3.se&format=csv")
+curl -fsSL "https://console.spurvik.com/api/v1/portfolio/scan?domains=client1.eu,client2.fr,client3.se&format=csv" > portfolio-audit.csv
 # Or export a ready-to-paste 1-page client Markdown brief (with live Art. 50 + C2PA SVG shields):
 curl -fsSL "https://console.spurvik.com/api/v1/report/markdown?domain=client1.eu&format=raw"
 # Or POST JSON:
@@ -41,13 +44,14 @@ curl -fsSL -X POST https://console.spurvik.com/api/v1/portfolio/scan \
   -d '{"domains":["client1.eu","client2.fr"],"locale":"fr"}'
 ```
 
-Returns `summary`, `results` (per-domain `detectedWidgets`, `detectedPlatforms`, `heroImageC2paProxy`, `statusShieldMarkdown`, `reportUrl`, `doneForYouSetupEur199Url`), and a copy-paste `markdownTable`.
+Returns `summary`, `results` (per-domain `detectedWidgets`, `detectedPlatforms`, `heroImageC2paProxy`, `statusShieldMarkdown`, `reportUrl`, `rfpAnswersCsvUrl`, `doneForYouSetupEur199Url`), `csvExportUrl`, `googleSheetsFormula`, and a copy-paste `markdownTable`.
 
-**Fallback B: the zero-install CLI** (2 to 10 public domains in one command, or a loop for larger rosters):
+**Fallback B: the zero-install CLI** (2 to 10 public domains in one command, JSON or RFC 4180 `--csv`, or a loop for larger rosters):
 
 ```bash
 # Single-command multi-domain batch scan (2–10 public domains at once, 4 in flight):
-npx -y spurvik@1.0.18 scan client1.eu client2.fr client3.se --json
+npx -y spurvik@1.0.18 portfolio client1.eu client2.fr client3.se --json
+npx -y spurvik@1.0.18 portfolio client1.eu client2.fr client3.se --csv > portfolio-audit.csv
 
 # Or loop through a clients.txt file (one lowercase domain per line):
 while IFS= read -r d; do
