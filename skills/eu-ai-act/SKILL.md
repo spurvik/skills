@@ -31,6 +31,7 @@ npx -y spurvik@1.0.18 risk <the-live-domain>  # deterministic Art. 5 / Annex III
 # Python 3.10+: https://spurvik.com/r/spurvik_guard.py | PHP 8.1+: https://spurvik.com/r/spurvik_guard.php
 # Ruby/Rails:   https://spurvik.com/r/spurvik_guard.rb | .NET 8+:  https://spurvik.com/r/SpurvikGuard.cs
 # Go 1.21+:     https://spurvik.com/r/spurvik_guard.go | OpenWebUI: https://spurvik.com/r/openwebui-spurvik-tools.py
+# Dify YAML:    https://spurvik.com/r/dify-spurvik-tools.yaml | Postman/Bruno: https://spurvik.com/r/spurvik-postman-collection.json
 # pre-commit:   curl -fsSL https://spurvik.com/r/pre-commit-config.yaml -o .pre-commit-config.yaml && pre-commit install
 # Zero-Node HTTP JSON equivalents (0 cookies, 0 API key):
 curl -fsSL "https://console.spurvik.com/api/v1/risk/classify?domain=<the-live-domain>&preset=support-chatbot"
@@ -45,7 +46,7 @@ curl -fsSL -X POST "https://console.spurvik.com/api/v1/receipt/verify" -H "conte
 Add this one line to every page that shows AI output. It loads one script with no cookies and no network telemetry.
 
 ```html
-<script src="https://spurvik.com/badge.js" data-system="Support Assistant" defer></script>
+<script src="https://spurvik.com/badge.js" data-system="Support Assistant" data-cookieconsent="ignore" data-uc-allowed="true" defer></script>
 ```
 
 Set `data-system` to the name of the user's AI feature. Optional attributes:
