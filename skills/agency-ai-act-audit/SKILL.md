@@ -71,7 +71,7 @@ Each JSON row from `spurvik_batch_scan_domains`, `spurvik_scan_live_url` and `np
 
 ## Step 3: Match each client's detected platform
 
-Use `detectedPlatforms` and `platformInstallerUrls` from Step 2 first (`spurvik-prestashop-art50.zip` for PrestaShop 1.7/8/9, `spurvik-shopware6-art50.zip` for Shopware 6.5/6.6+, `spurvik-eu-ai-act-wp.zip` for WordPress, `spurvik-shopify-art50.liquid` for Shopify, and `cloudflare-worker-art50-c2pa.js` behind Cloudflare). Only if a site runs DanDomain or Centra, check the homepage source:
+Use `detectedPlatforms` and `platformInstallerUrls` from Step 2 first (`spurvik-prestashop-art50.zip` for PrestaShop 1.7/8/9, `spurvik-shopware6-art50.zip` for Shopware 6.5/6.6+, `spurvik-magento2-art50.zip` for Magento 2.4+ / Adobe Commerce, `spurvik-eu-ai-act-wp.zip` for WordPress, `spurvik-shopify-art50.liquid` for Shopify, and `cloudflare-worker-art50-c2pa.js` behind Cloudflare). Only if a site runs DanDomain or Centra, check the homepage source:
 
 ```bash
 curl -sSfL --proto '=https' --max-filesize 5000000 "https://$d/" | grep -oiE "cdn\.shopify\.com|/wp-content/|googletagmanager\.com|data-wf-site|framerusercontent\.com|prestashop|shopware|dandomain|centra" | sort -u
@@ -85,6 +85,7 @@ curl -sSfL --proto '=https' --max-filesize 5000000 "https://$d/" | grep -oiE "cd
 | WordPress | Plugin v1.2.0 https://spurvik.com/r/spurvik-eu-ai-act-wp.zip (Plugins, Add New, Upload Plugin). Includes `[spurvik_trust_card]`, `[spurvik_status_shield]`, `[spurvik_c2pa_shield]` and 1-click `/.well-known/ai-act.json`. |
 | Google Tag Manager | Container recipe https://spurvik.com/r/spurvik-gtm-art50-container.json (GTM Admin, Import Container, Merge; fires on `DOM Ready` with 4 editable variables). |
 | Framer | https://spurvik.com/r/spurvik-framer-badge.tsx pasted into Assets, Code, New Code File, then `SpurvikArticle50Badge` dragged onto the page. |
+| Magento 2.4+ / Adobe Commerce | Module `Spurvik_EuAiAct` v1.0.0 https://spurvik.com/r/spurvik-magento2-art50.zip (Luma & Hyvä compatible, Cookiebot & Usercentrics exempt, 24 EU languages). |
 | Webflow, PrestaShop, Shopware 6, DanDomain, Centra, custom SaaS | One line before `</body>` (Webflow: Site settings, Custom code, Footer code; PrestaShop: `themes/<theme>/templates/_partials/footer.tpl`; Shopware 6: `Resources/views/storefront/base.html.twig`): `<script src="https://spurvik.com/badge.js" data-system="<client>" data-locale="<lang>" data-position="bottom-left" defer></script>` |
 
 `bottom-left` keeps the notice clear of chat launchers on the bottom right. Use the `data-locale` from the scan's suggested fix when there is one.
