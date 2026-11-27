@@ -96,6 +96,8 @@ Most enterprise questionnaires ask these five questions in some form. Map each c
   ```bash
   curl -fsSL "https://console.spurvik.com/api/v1/rfp/answers?domain=app.example.com&plan=pro&provider=mistral&locale=en"
   curl -fsSL "https://console.spurvik.com/api/v1/rfp/answers?domain=app.example.com&plan=pro&provider=azure-openai&locale=de&format=csv" -o rfp-dsb.csv
+  # Or inside Google Sheets (Extensions -> Apps Script -> paste Code.gs, then =SPURVIK_RFP("app.example.com", "pro", "mistral", "de")):
+  curl -fsSLO https://spurvik.com/r/spurvik-google-sheets-audit.gs
   ```
 
 Every input is optional. Set each one from the ledger instead of leaving the defaults:

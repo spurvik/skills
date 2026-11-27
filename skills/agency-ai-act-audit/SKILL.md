@@ -34,7 +34,9 @@ If one entry is not a public host, the whole batch is refused and nothing is fet
 ```bash
 curl -fsSL "https://console.spurvik.com/api/v1/portfolio/scan?domains=client1.eu,client2.fr,client3.se&locale=en"
 # Or stream RFC 4180 CSV (UTF-8 BOM) directly into Excel Power Query, Vanta, or Google Sheets:
-# Google Sheets cell A1: =IMPORTDATA("https://console.spurvik.com/api/v1/portfolio/scan?domains=client1.eu,client2.fr,client3.se&format=csv")
+# Google Sheets cell A1 (<= 10 domains): =IMPORTDATA("https://console.spurvik.com/api/v1/portfolio/scan?domains=client1.eu,client2.fr,client3.se&format=csv")
+# Or for up to 50 client domains in Google Sheets (=SPURVIK_PORTFOLIO(A2:A51, "de") with 6h CacheService):
+curl -fsSLO https://spurvik.com/r/spurvik-google-sheets-audit.gs
 curl -fsSL "https://console.spurvik.com/api/v1/portfolio/scan?domains=client1.eu,client2.fr,client3.se&format=csv" > portfolio-audit.csv
 # Or export a ready-to-paste 1-page client Markdown brief (with live Art. 50 + C2PA SVG shields):
 curl -fsSL "https://console.spurvik.com/api/v1/report/markdown?domain=client1.eu&format=raw"
